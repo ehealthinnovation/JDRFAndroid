@@ -1,0 +1,28 @@
+language: android
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
+
+    # The BuildTools version used by your project
+    - build-tools-27.0.3
+
+    # The SDK version used to compile your project
+    - android-27
+
+    - extra-android-m2repository
+    
+before_install:
+    - yes | sdkmanager "platforms;android-27"
+    - yes | sdkmanager "platforms;android-26"
+
+script:
+    # Run JUnit tests
+    - ./gradlew test
+    # Generate codecov results
+    - ./gradlew build jacocoTestReport
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

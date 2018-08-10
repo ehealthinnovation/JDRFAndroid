@@ -1,0 +1,37 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.2.30'
+    ext.jacocoVersion = '0.8.1'
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' } // should be the last entry
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
+
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' } // should be the last entry
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// This is temporary...as for some reason the bintray doesn't like my javadocs...
+subprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
