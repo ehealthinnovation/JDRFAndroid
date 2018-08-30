@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.encodedvalues.bgmcontext
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalues.bgm.bgmcontext
 
 import junit.framework.Assert
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest

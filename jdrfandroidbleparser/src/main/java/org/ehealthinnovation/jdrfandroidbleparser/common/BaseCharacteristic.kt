@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common
+package org.ehealthinnovation.jdrfandroidbleparser.common
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log

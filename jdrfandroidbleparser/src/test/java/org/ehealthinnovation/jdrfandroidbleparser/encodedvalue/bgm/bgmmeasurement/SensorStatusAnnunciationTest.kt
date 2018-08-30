@@ -1,9 +1,8 @@
-package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgmmeasurement
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.bgmmeasurement
 
 import junit.framework.Assert
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SensorStatusAnnunciation
-import org.junit.Assert.*
 import org.junit.Test
 import java.util.*
 

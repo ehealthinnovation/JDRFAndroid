@@ -1,7 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.stringcharacteristics
 
 import android.bluetooth.BluetoothGattCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common.StringCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.common.StringCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic.*
 import kotlin.jvm.java
 

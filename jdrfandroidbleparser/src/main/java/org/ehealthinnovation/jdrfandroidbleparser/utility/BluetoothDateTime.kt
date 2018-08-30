@@ -1,7 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.utility
-
-import java.time.Year
-import java.util.*
+package org.ehealthinnovation.jdrfandroidbleparser.utility
 
 data class BluetoothDateTime(val _year: Int = 0,
                              val _month: Int = 0,
