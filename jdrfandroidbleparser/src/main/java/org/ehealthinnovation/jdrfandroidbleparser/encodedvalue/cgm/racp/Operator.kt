@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.racp
 
 enum class Operator constructor(val key: Int) {
     NULL(0),

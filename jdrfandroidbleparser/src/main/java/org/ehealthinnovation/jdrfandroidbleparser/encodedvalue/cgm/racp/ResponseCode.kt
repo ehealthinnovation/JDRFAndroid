@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.racp
 
 enum class ResponseCode constructor(val key: Int) {
     RESERVED_FOR_FUTURE_USE(0),
