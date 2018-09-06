@@ -3,6 +3,8 @@ package org.ehealthinnovation.jdrfandroidbleparser.cgm.characteristic
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundcharacteristic.GlucoseFeatureCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.feature.CgmSampleLocation
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.feature.CgmType
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.feature.Flags
 import org.junit.After
 import org.junit.Assert
@@ -10,6 +12,7 @@ import org.junit.Before
 
 import org.junit.Assert.*
 import org.junit.Test
+import java.util.*
 
 class CgmFeatureCharacteristicTest : BaseTest(){
 
@@ -17,17 +20,61 @@ class CgmFeatureCharacteristicTest : BaseTest(){
      * Test packet 1
      * A normal CGM Feature packet with no CRC
      */
-    private val testPacket1 = byteArrayOf(0x)
+    private val testPacket1 = byteArrayOf(0b01010101,0b10101010.toByte(),0b10101010.toByte(), 0x52)
+    private val expectedFlagSet1 = EnumSet.of(
+            Flags.CALIBRATION_SUPPORTED,
+            Flags.HYPO_ALERTS_SUPPORTED,
+            Flags.RATE_OF_INCREASE_DECREASE_ALERTS_SUPPORTED,
+            Flags.SENSOR_MALFUNCTION_DETECTION_SUPPORTED,
+            Flags.LOW_BATTERY_DETECTION_SUPPORTED,
+            Flags.GENERAL_DEVICE_FAULT_SUPPORTED,
+            Flags.MULTIPLE_BOND_SUPPORTED,
+            Flags.CGM_TREND_INFORMATION_SUPPORTED
+    )
+
+    private val expectedType1 = CgmType.CAPILLARY_PLASMA
+    private val expectedSampleLocation1 = CgmSampleLocation.SUBCUTANEOUS_TISSUE
 
     /**
      * Test Packet 2
      * A normal CGM feature packet with correct CRC
      */
+    private val testPacket2 = byteArrayOf(0b01010101,0b10111010.toByte(),0b10101010.toByte(), 0x52, 0x40.toByte(), 0x62.toByte())
+    private val expectedFlagSet2 = EnumSet.of(
+            Flags.CALIBRATION_SUPPORTED,
+            Flags.HYPO_ALERTS_SUPPORTED,
+            Flags.RATE_OF_INCREASE_DECREASE_ALERTS_SUPPORTED,
+            Flags.SENSOR_MALFUNCTION_DETECTION_SUPPORTED,
+            Flags.LOW_BATTERY_DETECTION_SUPPORTED,
+            Flags.GENERAL_DEVICE_FAULT_SUPPORTED,
+            Flags.MULTIPLE_BOND_SUPPORTED,
+            Flags.E2E_CRC_SUPPORTED,
+            Flags.CGM_TREND_INFORMATION_SUPPORTED
+    )
+
+    private val expectedType2 = CgmType.CAPILLARY_PLASMA
+    private val expectedSampleLocation2 = CgmSampleLocation.SUBCUTANEOUS_TISSUE
+
 
     /**
      * Test Packet 3
      * A normal CGM feature packet with incorrect CRC
      */
+    private val testPacket3 = byteArrayOf(0b01010101,0b10111010.toByte(),0b10101010.toByte(), 0x52, 0xd5.toByte(), 0xe6.toByte())
+    private val expectedFlagSet3 = EnumSet.of(
+            Flags.CALIBRATION_SUPPORTED,
+            Flags.HYPO_ALERTS_SUPPORTED,
+            Flags.RATE_OF_INCREASE_DECREASE_ALERTS_SUPPORTED,
+            Flags.SENSOR_MALFUNCTION_DETECTION_SUPPORTED,
+            Flags.LOW_BATTERY_DETECTION_SUPPORTED,
+            Flags.GENERAL_DEVICE_FAULT_SUPPORTED,
+            Flags.E2E_CRC_SUPPORTED,
+            Flags.MULTIPLE_BOND_SUPPORTED,
+            Flags.CGM_TREND_INFORMATION_SUPPORTED
+    )
+
+    private val expectedType3 = null
+    private val expectedSampleLocation3 = null
 
 
 
@@ -54,7 +101,20 @@ class CgmFeatureCharacteristicTest : BaseTest(){
 
     @Test
     fun parseSuccess(){
+        Assert.assertTrue(CgmFeatureCharacteristic(mockBTCharacteristic(testPacket1)).successfulParsing)
+        Assert.assertTrue(CgmFeatureCharacteristic(mockBTCharacteristic(testPacket2)).successfulParsing)
+        Assert.assertFalse(CgmFeatureCharacteristic(mockBTCharacteristic(testPacket3)).successfulParsing)
+    }
 
+    @Test
+    fun parseSampleLocationSuccessfully(){
+        Assert.assertEquals(expectedSampleLocation1, CgmFeatureCharacteristic(mockBTCharacteristic(testPacket1)).cgmSampleLocation)
+        Assert.assertEquals(expectedSampleLocation2, CgmFeatureCharacteristic(mockBTCharacteristic(testPacket2)).cgmSampleLocation)
+        Assert.assertEquals(expectedSampleLocation3, CgmFeatureCharacteristic(mockBTCharacteristic(testPacket3)).cgmSampleLocation)
+
+        Assert.assertEquals(expectedType1, CgmFeatureCharacteristic(mockBTCharacteristic(testPacket1)).cgmType)
+        Assert.assertEquals(expectedType2, CgmFeatureCharacteristic(mockBTCharacteristic(testPacket2)).cgmType)
+        Assert.assertEquals(expectedType3, CgmFeatureCharacteristic(mockBTCharacteristic(testPacket3)).cgmType)
     }
 
     @Test

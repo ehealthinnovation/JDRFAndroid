@@ -67,12 +67,9 @@ object CrcHelper {
      * @return the resulting byte array with CRC code attached to the end in little endian format
      */
     fun attachCcittCrc16ToPacket(message: ByteArray, length: Int): ByteArray {
-        val output = message.copyOf(length)
 
         val crc = calculateCcittCrc16(message, length)
-
-        output[length] = crc.toByte()
-        output[length + 1] = (crc.toInt() and 0xFF00 shr 8).toByte()
+        val output = message + crc.toByte() + (crc.toInt() and 0xFF00 shr 8).toByte()
 
         return output
     }

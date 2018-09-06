@@ -76,6 +76,7 @@ open class BaseTest {
                 val offset: Int = it.getArgument(0)
                 payload.sliceArray(offset..(offset + (payload.size - 1))).reversedArray().toString(Charset.defaultCharset())
             }
+            on { value } doAnswer {payload}
         }
     }
 
