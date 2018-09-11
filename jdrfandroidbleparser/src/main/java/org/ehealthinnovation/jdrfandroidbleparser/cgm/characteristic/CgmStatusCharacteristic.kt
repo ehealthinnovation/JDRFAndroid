@@ -31,7 +31,20 @@ class CgmStatusCharacteristic(c : BluetoothGattCharacteristic, hasCrc : Boolean 
 
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var errorFreeParse = false
+        timeOffset = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+
+        //The structure for the status field is 24 bit, non-standard integer size
+        var statusFlagHolder : Int
+        statusFlagHolder = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+        statusFlagHolder += getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) shl 8
+        statusFlagHolder += getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) shl 16
+
+        cgmStatus = SensorStatusAnnunciation.parseFlags(statusFlagHolder)
+
+        errorFreeParse = true
+
+        return errorFreeParse
     }
 
 
