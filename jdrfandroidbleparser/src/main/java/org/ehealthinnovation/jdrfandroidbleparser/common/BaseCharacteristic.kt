@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.FormatType
 import org.ehealthinnovation.jdrfandroidbleparser.utility.CrcHelper
+import java.util.*
 import kotlin.jvm.Throws
 import kotlin.jvm.java
 
@@ -31,12 +32,23 @@ abstract class BaseCharacteristic(val uuid: Int) {
         }
     }
 
+    /**
+     * Use this constructor when a characteristic is created to compose/serialize a bluetooth object.
+     */
+    constructor(uuid: Int, hasCrc: Boolean = false): this(uuid) {
+        this.composingcharacteristic = BluetoothGattCharacteristic(UUID.randomUUID(),
+                BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT,
+                BluetoothGattCharacteristic.PERMISSION_WRITE)
+    }
+
     open val tag = BaseCharacteristic::class.java.canonicalName as String
     val nullValueException = "Null characteristic interpretation, aborting parsing."
     var rawData: ByteArray = ByteArray(0)
     var characteristic: BluetoothGattCharacteristic? = null
     var successfulParsing: Boolean = false
     var offset = 0
+    /**A dummy characteristic for composing a new characteristic*/
+    private var composingcharacteristic: BluetoothGattCharacteristic? = null
 
     /**
      * Swallowing the exception is one of two viable options, some users might want any error to
@@ -156,6 +168,36 @@ abstract class BaseCharacteristic(val uuid: Int) {
             } ?: throw NullPointerException("Format \"$formatType\" at offset \"$offset\" does " +
                     "not relate to valid Float value...")
 
+    @Throws(NullPointerException::class)
+
+    /**
+     * Put the input [value] of Bluetooth type [formatType] into a the internal [composingcharacteristic]
+     * object. The [offset] property will be incremented by the size of  [formatType]
+     *
+     * @param value The integer value to be put into the serial buffer
+     * @param formatType Int indicating the format type of the input. An example is
+     * [BluetoothGattCharacteristic.FORMAT_UINT8]
+     * @return true if operation is successful; false otherwise
+     * @throws NullPointerException If the internal serialization buffer [composingcharacteristic]
+     * is null, this happens when [BaseCharacteristic]
+     */
+    protected fun putIntValue(value :Int, formatType: Int) : Boolean{
+       composingcharacteristic?.run {
+           val results = this.setValue(value, formatType, offset)
+           if(results) {
+               offset = getNextOffset(formatType, offset)
+               rawData = this.value ?: ByteArray(0)
+           }
+           return results
+       } ?: throw NullPointerException("composingcharacteristic is null, make sure the " +
+               "characteristic is initiated with the composing constructor")
+    }
+
+
+
+
+
+
     /**
      * Increments the current read index by the appropriate amount for the format type passed in.
      *
@@ -170,5 +212,6 @@ abstract class BaseCharacteristic(val uuid: Int) {
         } ?: Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
         return newIndex
     }
+
 
 }
