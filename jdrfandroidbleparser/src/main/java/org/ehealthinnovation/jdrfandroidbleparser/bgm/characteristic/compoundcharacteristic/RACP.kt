@@ -95,7 +95,7 @@ class RACP : BaseCharacteristic, Composable {
     }
 
     private fun parseGenericOperand(c: BluetoothGattCharacteristic) {
-        when(operator){
+        when (operator) {
             null -> throw NullPointerException("operator is null")
             Operator.ALL_RECORDS,
             Operator.FIRST_RECORD,
@@ -116,8 +116,8 @@ class RACP : BaseCharacteristic, Composable {
                     minimumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                 }
                 Operator.WITHIN_RANGE_OF_INCLUSIVE -> {
-                    maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                     minimumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                    maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                 }
                 else -> {
                     Log.e(tag, "unknown operator $operator")
