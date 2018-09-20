@@ -3,7 +3,6 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundch
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
-import kotlin.jvm.java
 
 /**
  * The SYSTEM ID characteristic consists of a structure with two fields. The first field are the

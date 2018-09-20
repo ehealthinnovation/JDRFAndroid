@@ -23,22 +23,23 @@ abstract class BaseCharacteristic(val uuid: Int) {
      * The default value for CRC check is false. There are some characteristics that requires a
      * first pass of parsing to know if CRC is present, and a second pass to parse the content with
      * the [hasCrc] flag set correctly.
+     *
+     *
      */
-    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int, hasCrc: Boolean = false): this(uuid) {
-        this.characteristic = characteristic
-        characteristic?.let {
-            rawData = it.value ?: ByteArray(0)
-            this.successfulParsing = tryParse(it, hasCrc)
+    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int, hasCrc: Boolean = false, isComposing: Boolean = false): this(uuid) {
+        if(!isComposing) {
+            this.characteristic = characteristic
+            characteristic?.let {
+                rawData = it.value ?: ByteArray(0)
+                this.successfulParsing = tryParse(it, hasCrc)
+            }
+        }else{
+            characteristic?.let {
+                this.composingcharacteristic = it }
+            if(characteristic == null){
+                this.composingcharacteristic = BluetoothGattCharacteristic(UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_WRITE, BluetoothGattCharacteristic.PERMISSION_WRITE)
+            }
         }
-    }
-
-    /**
-     * Use this constructor when a characteristic is created to compose/serialize a bluetooth object.
-     */
-    constructor(uuid: Int, hasCrc: Boolean = false): this(uuid) {
-        this.composingcharacteristic = BluetoothGattCharacteristic(UUID.randomUUID(),
-                BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT,
-                BluetoothGattCharacteristic.PERMISSION_WRITE)
     }
 
     open val tag = BaseCharacteristic::class.java.canonicalName as String
@@ -212,6 +213,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
         } ?: Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
         return newIndex
     }
+
 
 
 }

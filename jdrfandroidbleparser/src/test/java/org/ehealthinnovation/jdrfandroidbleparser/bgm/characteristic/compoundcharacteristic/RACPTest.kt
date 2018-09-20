@@ -7,9 +7,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp.Operator
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp.ResponseCode
 import org.ehealthinnovation.jdrfandroidbleparser.utility.BluetoothDateTime
 import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Test
-import java.util.logging.LogRecord
 
 class RACPTest : BaseTest() {
     /**
@@ -451,7 +449,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingSuccessIndicator() {
         System.out.printf("testParsingSuccessIndicator\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedParsingResult, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).successfulParsing)
         }
@@ -460,7 +458,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingOpcode() {
         System.out.printf("testParsingOpcode\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedOpcode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).opcode)
         }
@@ -469,7 +467,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingOperator() {
         System.out.printf("testParsingOperator\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedOperator, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).operator)
         }
@@ -478,7 +476,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingFilter() {
         System.out.printf("testParsingFilter\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedFilter, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).filterType)
         }
@@ -487,7 +485,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingMinimumSequenceNumber() {
         System.out.printf("testMinimumSequenceNumber\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedMinimumSequenceNumber, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).minimumFilterValueSequenceNumber)
         }
@@ -496,7 +494,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingMaximumSequenceNumber() {
         System.out.printf("testMaximumSequenceNumber\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedMaximumSequenceNumber, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).maximumFilterValueSequenceNumber)
         }
@@ -505,7 +503,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingMinimumUserFacingTime() {
         System.out.printf("testMinimumUserFacingTime\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedMinimumUserFacingTime, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).minimumFilterValueUserFacingTime)
         }
@@ -514,7 +512,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingMaximumUserFacingTime() {
         System.out.printf("testMaximumUserFacingTime\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedMaximumUserFacingTime, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).maximumFilterValueUserFacingTime)
         }
@@ -523,7 +521,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingRequestedOpcode() {
         System.out.printf("testRequestedOpcode\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedRequestOpcode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).requestOpcode)
         }
@@ -532,7 +530,7 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingRequestedResponse() {
         System.out.printf("testRequestedResponse\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedResponseCode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).responseCode)
         }
@@ -541,9 +539,43 @@ class RACPTest : BaseTest() {
     @Test
     fun testParsingNumberOfRecordResponse() {
         System.out.printf("testNumberOfRecordResponse\n")
-        for (testVector in racpTestVectors){
+        for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedNumberOfRecord, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).numberOfRecordResponse)
         }
+    }
+
+    @Test
+    fun testComposingRacp() {
+        System.out.printf("testComposingRacp\n")
+        var testRacp: RACP
+        var successCount = 0
+        var skipCount = 0
+
+        for (testVector in racpTestVectors) {
+            System.out.printf("testing racpTestVector ${testVector.key}\n")
+            if (testVector.value.expectedParsingResult == false) {
+                System.out.printf("This case is expected to failed in parsing, so cant be composed backwards.\n")
+                skipCount++
+                continue
+            }
+            testRacp = RACP(mockBTCharacteristic(ByteArray(0)), testVector.value.hasCrc, isComposing = true)
+            testRacp.operator = testVector.value.expectedOperator
+            testRacp.opcode = testVector.value.expectedOpcode
+            testRacp.filterType = testVector.value.expectedFilter
+            testRacp.minimumFilterValueUserFacingTime = testVector.value.expectedMinimumUserFacingTime
+            testRacp.minimumFilterValueSequenceNumber = testVector.value.expectedMinimumSequenceNumber
+            testRacp.maximumFilterValueUserFacingTime = testVector.value.expectedMaximumUserFacingTime
+            testRacp.maximumFilterValueSequenceNumber = testVector.value.expectedMaximumSequenceNumber
+            testRacp.requestOpcode = testVector.value.expectedRequestOpcode
+            testRacp.responseCode = testVector.value.expectedResponseCode
+            testRacp.hasCrc = testVector.value.hasCrc
+            testRacp.numberOfRecordResponse = testVector.value.expectedNumberOfRecord
+            val composedPacket = testRacp.composeCharacteristic(testVector.value.hasCrc)
+            System.out.printf("composed: " + composedPacket.contentToString() + "\n")
+            System.out.printf("test packet: " + testVector.value.testPacket.contentToString() + "\n")
+            Assert.assertTrue(testVector.value.testPacket.contentEquals(composedPacket))
+        }
+        System.out.printf("Total cases: ${racpTestVectors.size} Cases skipped: $skipCount\n")
     }
 }
