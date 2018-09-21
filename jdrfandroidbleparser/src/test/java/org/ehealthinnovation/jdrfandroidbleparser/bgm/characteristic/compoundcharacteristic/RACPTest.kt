@@ -443,6 +443,149 @@ class RACPTest : BaseTest() {
                 expectedResponseCode = null
         )
 
+        /**
+         * packet21
+         * general response successful with crc
+         */
+        racpTestVectors[21] = RacpTestVector(
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x01, -22, 64),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.SUCCESS,
+                hasCrc = true
+        )
+
+        /**
+         * Packet22
+         * Opcode not supported has CRC
+         */
+        racpTestVectors[2] = RacpTestVector(
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x02, 113, 114),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.OP_CODE_NOT_SUPPORTED,
+                hasCrc = true)
+
+        /**
+         * Packet23
+         * Invalid Operator
+         */
+        racpTestVectors[23] = RacpTestVector(
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x03, -8, 99),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.INVALID_OPERATOR,
+                hasCrc = true
+        )
+        /**
+
+         * Packet24
+         * Operator not supported has CRC
+         */
+        racpTestVectors[24] = RacpTestVector(
+
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x04, 71, 23),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.OPERATOR_NOT_SUPPORTED,
+                hasCrc = true
+        )
+
+        /**
+
+         * Packet25
+         * General response successful has CRC
+         */
+        racpTestVectors[25] = RacpTestVector(
+
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x05, -50, 6),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.INVALID_OPERAND,
+                hasCrc = true
+        )
+        /**
+
+         * Packet26
+         * No record found has CRC
+         */
+        racpTestVectors[26] = RacpTestVector(
+
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x06, 85, 52),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.NO_RECORDS_FOUND,
+                hasCrc = true
+        )
+        /**
+
+         * Packet27
+         * Abort unsuccessful has CRC
+         */
+        racpTestVectors[27] = RacpTestVector(
+
+                testPacket = byteArrayOf(0x06, 0x00, 0x01, 0x07, -36, 37),
+                expectedParsingResult = true,
+                expectedOpcode = Opcode.RESPONSE_CODE,
+                expectedOperator = Operator.NULL,
+                expectedFilter = null,
+                expectedMinimumSequenceNumber = null,
+                expectedMaximumSequenceNumber = null,
+                expectedMinimumUserFacingTime = null,
+                expectedMaximumUserFacingTime = null,
+                expectedNumberOfRecord = null,
+                expectedRequestOpcode = Opcode.REPORT_STORED_RECORDS,
+                expectedResponseCode = ResponseCode.ABORT_UNSUCCESSFUL,
+                hasCrc = true
+        )
     }
 
 
@@ -550,6 +693,39 @@ class RACPTest : BaseTest() {
         System.out.printf("testComposingRacp\n")
         var testRacp: RACP
         var successCount = 0
+        var skipCount = 0
+
+        for (testVector in racpTestVectors) {
+            System.out.printf("testing racpTestVector ${testVector.key}\n")
+            if (testVector.value.expectedParsingResult == false) {
+                System.out.printf("This case is expected to failed in parsing, so cant be composed backwards.\n")
+                skipCount++
+                continue
+            }
+            testRacp = RACP(mockBTCharacteristic(ByteArray(0)), testVector.value.hasCrc, isComposing = true)
+            testRacp.operator = testVector.value.expectedOperator
+            testRacp.opcode = testVector.value.expectedOpcode
+            testRacp.filterType = testVector.value.expectedFilter
+            testRacp.minimumFilterValueUserFacingTime = testVector.value.expectedMinimumUserFacingTime
+            testRacp.minimumFilterValueSequenceNumber = testVector.value.expectedMinimumSequenceNumber
+            testRacp.maximumFilterValueUserFacingTime = testVector.value.expectedMaximumUserFacingTime
+            testRacp.maximumFilterValueSequenceNumber = testVector.value.expectedMaximumSequenceNumber
+            testRacp.requestOpcode = testVector.value.expectedRequestOpcode
+            testRacp.responseCode = testVector.value.expectedResponseCode
+            testRacp.hasCrc = testVector.value.hasCrc
+            testRacp.numberOfRecordResponse = testVector.value.expectedNumberOfRecord
+            val composedPacket = testRacp.composeCharacteristic(testVector.value.hasCrc)
+            System.out.printf("composed: " + composedPacket.contentToString() + "\n")
+            System.out.printf("test packet: " + testVector.value.testPacket.contentToString() + "\n")
+            Assert.assertTrue(testVector.value.testPacket.contentEquals(composedPacket))
+        }
+        System.out.printf("Total cases: ${racpTestVectors.size} Cases skipped: $skipCount\n")
+    }
+
+    @Test
+    fun testAppendingCrc() {
+        System.out.printf("testAppendingCrC in RACP\n")
+        var testRacp: RACP
         var skipCount = 0
 
         for (testVector in racpTestVectors) {
