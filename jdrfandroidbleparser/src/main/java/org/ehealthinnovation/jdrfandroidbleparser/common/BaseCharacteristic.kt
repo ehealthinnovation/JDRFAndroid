@@ -102,6 +102,23 @@ abstract class BaseCharacteristic(val uuid: Int) {
     }
 
     /**
+     * This function append the CRC to the end of the packet.
+     * @param data The raw data of the message byte sequence
+     * @return the resulting [ByteArray] with the CRC attached.
+     */
+    protected fun attachCrc(data: ByteArray? = null) : ByteArray {
+        data?.let {
+            return CrcHelper.attachCcittCrc16ToPacket(data, data.size)
+        }
+        val cRc = CrcHelper.calculateCcittCrc16(rawData, rawData.size).toInt()
+        if(putIntValue(cRc, BluetoothGattCharacteristic.FORMAT_UINT16)) {
+            return rawData
+        }else{
+            throw IllegalStateException("Unable to append CRC")
+        }
+    }
+
+    /**
      * Returns the stored [String] value of this characteristic.
      *
      * <p>The formatType parameter determines how the characteristic value is to be interpreted.
@@ -193,11 +210,6 @@ abstract class BaseCharacteristic(val uuid: Int) {
        } ?: throw NullPointerException("composingcharacteristic is null, make sure the " +
                "characteristic is initiated with the composing constructor")
     }
-
-
-
-
-
 
     /**
      * Increments the current read index by the appropriate amount for the format type passed in.

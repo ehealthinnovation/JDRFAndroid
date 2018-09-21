@@ -227,6 +227,9 @@ class RACP : BaseCharacteristic, Composable {
                     Log.e(tag, "unknown opcode")
                 }
             }
+            if(hasCrc){
+                attachCrc()
+            }
         }
         return rawData
     }
