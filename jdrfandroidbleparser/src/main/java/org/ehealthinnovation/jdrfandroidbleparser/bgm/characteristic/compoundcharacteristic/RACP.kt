@@ -2,6 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundch
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
+import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.dataobjects.RACPDataObject
 import org.ehealthinnovation.jdrfandroidbleparser.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.common.Composable
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
@@ -24,58 +25,20 @@ class RACP : BaseCharacteristic, Composable {
     override val tag: String = RACP::class.java.canonicalName
 
     constructor(c: BluetoothGattCharacteristic, hasCrc: Boolean = false, isComposing: Boolean = false) :
-            super(c, GattCharacteristic.RECORD_ACCESS_CONTROL_POINT.assigned, hasCrc, isComposing) {
-        this.hasCrc = hasCrc
-    }
+            super(c, GattCharacteristic.RECORD_ACCESS_CONTROL_POINT.assigned, hasCrc, isComposing)
 
 
-    /**
-     * Op Code specifying the operation
-     */
-    var opcode: Opcode? = null
-
-    /**
-     * [operator] is a modifier to the operand. For example, [Operator.LAST_RECORD],
-     * [Operator.LESS_THAN_OR_EQUAL_TO]
-     */
-    var operator: Operator? = null
-
-    /** Since the value of the Operand is defined per service, when the RACP is used with the
-     *  Glucose Service, a Filter Type field is defined to enable the flexibility to filter based
-     *  on different criteria (i.e., Sequence Number or optionally User Facing Time).
-     */
-    var filterType: Filter? = null
-
-    /**
-     * The following variables stores the possible fields which constitute operands.
-     */
-    var minimumFilterValueSequenceNumber: Int? = null
-    var maximumFilterValueSequenceNumber: Int? = null
-    var minimumFilterValueUserFacingTime: BluetoothDateTime? = null
-    var maximumFilterValueUserFacingTime: BluetoothDateTime? = null
-
-    /**
-     * When the Report Number of Stored Records Op Code is written to the Record Access Control
-     * Point, the Server shall calculate and respond with a record count in UINT16 format based on
-     * filter criteria, Operator and Operand values.
-     */
-    var numberOfRecordResponse: Int? = null
-    var requestOpcode: Opcode? = null
-    var responseCode: ResponseCode? = null
-
-    /**
-     * Indicate whether the packet requires CRC
-     */
-    var hasCrc: Boolean
+    lateinit var racpData: RACPDataObject
 
     /**
      * Main entry point for parsing a [BluetoothGattCharacteristic]
      */
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParsing = false
-        opcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+        racpData = RACPDataObject()
+        racpData.opcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         //Extract operator
-        when (opcode) {
+        when (racpData.opcode) {
             null -> {
                 Log.e(tag, "Opcode is null, packet might have been corrucpted")
                 return errorFreeParsing
@@ -83,35 +46,35 @@ class RACP : BaseCharacteristic, Composable {
             Opcode.REPORT_NUMBER_OF_STORED_RECORDS,
             Opcode.DELETE_STORED_RECORDS,
             Opcode.REPORT_STORED_RECORDS -> {
-                operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                racpData.operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
                 parseGenericOperand(c)
             }
             Opcode.ABORT_OPERATION -> {
-                operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                if (operator != Operator.NULL) {
+                racpData.operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                if (racpData.operator != Operator.NULL) {
                     Log.e(tag, "operator must be null, when opcode is Abort Operation")
                     return errorFreeParsing
                 }
             }
             Opcode.NUMBER_OF_STORED_RECORDS_RESPONSE -> {
-                operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                if (operator != Operator.NULL) {
+                racpData.operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                if (racpData.operator != Operator.NULL) {
                     Log.e(tag, "operator must be null, when opcode is Abort Operation")
                     return errorFreeParsing
                 }
-                numberOfRecordResponse = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                racpData.numberOfRecordResponse = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
             }
             Opcode.RESPONSE_CODE -> {
-                operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                if (operator != Operator.NULL) {
+                racpData.operator = Operator.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                if (racpData.operator != Operator.NULL) {
                     Log.e(tag, "operator must be null, when opcode is Abort Operation")
                     return errorFreeParsing
                 }
-                requestOpcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                responseCode = ResponseCode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                racpData.requestOpcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                racpData.responseCode = ResponseCode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
             }
             else -> {
-                Log.e(tag, "unknown opcode $opcode , exiting parsing")
+                Log.e(tag, "unknown opcode $racpData.opcode , exiting parsing")
                 return errorFreeParsing
             }
         }
@@ -124,53 +87,53 @@ class RACP : BaseCharacteristic, Composable {
      * Helper function to deserialize the generic operand portion of the packet
      */
     private fun parseGenericOperand(c: BluetoothGattCharacteristic) {
-        when (operator) {
+        when (racpData.operator) {
             null -> throw NullPointerException("operator is null")
             Operator.ALL_RECORDS,
             Operator.FIRST_RECORD,
             Operator.LAST_RECORD -> {
-                Log.i(tag, "${operator.toString()} does not need operand")
+                Log.i(tag, "${racpData.operator.toString()} does not need operand")
                 return
             }
         }
 
-        filterType = Filter.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+        racpData.filterType = Filter.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
 
-        if (filterType == Filter.SEQUENCE_NUMBER) {
-            when (operator) {
+        if (racpData.filterType == Filter.SEQUENCE_NUMBER) {
+            when (racpData.operator) {
                 Operator.LESS_THAN_OR_EQUAL_TO -> {
-                    maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                    racpData.maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                 }
                 Operator.GREATER_THAN_OR_EQUAL_TO -> {
-                    minimumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                    racpData.minimumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                 }
                 Operator.WITHIN_RANGE_OF_INCLUSIVE -> {
-                    minimumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-                    maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                    racpData.minimumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                    racpData.maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                 }
                 else -> {
-                    Log.e(tag, "unknown operator $operator")
+                    Log.e(tag, "unknown operator $racpData.operator")
                 }
             }
-        } else if (filterType == Filter.USER_FACING_TIME) {
-            when (operator) {
+        } else if (racpData.filterType == Filter.USER_FACING_TIME) {
+            when (racpData.operator) {
                 Operator.LESS_THAN_OR_EQUAL_TO -> {
-                    maximumFilterValueUserFacingTime = parseBluetoothDateTime(c)
+                    racpData.maximumFilterValueUserFacingTime = parseBluetoothDateTime(c)
                 }
                 Operator.GREATER_THAN_OR_EQUAL_TO -> {
-                    minimumFilterValueUserFacingTime = parseBluetoothDateTime(c)
+                    racpData.minimumFilterValueUserFacingTime = parseBluetoothDateTime(c)
                 }
                 Operator.WITHIN_RANGE_OF_INCLUSIVE -> {
-                    minimumFilterValueUserFacingTime = parseBluetoothDateTime(c)
-                    maximumFilterValueUserFacingTime = parseBluetoothDateTime(c)
+                    racpData.minimumFilterValueUserFacingTime = parseBluetoothDateTime(c)
+                    racpData.maximumFilterValueUserFacingTime = parseBluetoothDateTime(c)
 
                 }
                 else -> {
-                    Log.e(tag, "unknown operator $operator")
+                    Log.e(tag, "unknown operator $racpData.operator")
                 }
             }
         } else {
-            throw IllegalStateException("unable to handle filter type $filterType")
+            throw IllegalStateException("unable to handle filter type $racpData.filterType")
         }
     }
 
@@ -195,8 +158,8 @@ class RACP : BaseCharacteristic, Composable {
      * @param hasCrc if the characteristics need CRC
      * @return the [ByteArray] of the resulting composition
      */
-    override fun composeCharacteristic(hasCrc: Boolean): ByteArray {
-        opcode?.run {
+    override fun composeCharacteristic(): ByteArray {
+        racpData.opcode?.run {
             when (this) {
                 Opcode.REPORT_STORED_RECORDS,
                 Opcode.REPORT_NUMBER_OF_STORED_RECORDS,
@@ -208,9 +171,9 @@ class RACP : BaseCharacteristic, Composable {
                 Opcode.RESPONSE_CODE -> {
                     putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
                     putIntValue(Operator.NULL.key, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    requestOpcode?.run { putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8) }
+                    racpData.requestOpcode?.run { putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8) }
                             ?: throw NullPointerException(" request opcode is null")
-                    responseCode?.run { putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8) }
+                    racpData.responseCode?.run { putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8) }
                             ?: throw NullPointerException(" reponse code is null")
                 }
                 Opcode.ABORT_OPERATION -> {
@@ -220,14 +183,14 @@ class RACP : BaseCharacteristic, Composable {
                 Opcode.NUMBER_OF_STORED_RECORDS_RESPONSE -> {
                     putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
                     putIntValue(Operator.NULL.key, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    numberOfRecordResponse?.run { putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT16) }
+                    racpData.numberOfRecordResponse?.run { putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT16) }
                             ?: throw NullPointerException(" nnumber of records is null")
                 }
                 else -> {
                     Log.e(tag, "unknown opcode")
                 }
             }
-            if(hasCrc){
+            if (racpData.hasCrc) {
                 attachCrc()
             }
         }
@@ -238,7 +201,7 @@ class RACP : BaseCharacteristic, Composable {
      * A helper function to compose the parameter portion of the packet
      */
     private fun composeQueryParameters() {
-        operator?.run {
+        racpData.operator?.run {
             when (this) {
                 Operator.LAST_RECORD,
                 Operator.FIRST_RECORD,
@@ -247,16 +210,16 @@ class RACP : BaseCharacteristic, Composable {
                 }
                 Operator.GREATER_THAN_OR_EQUAL_TO -> {
                     putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    filterType?.run {
+                    racpData.filterType?.run {
                         putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
                         when (this) {
                             Filter.SEQUENCE_NUMBER -> {
-                                minimumFilterValueSequenceNumber?.run {
+                                racpData.minimumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT16)
                                 } ?: throw NullPointerException("The minimum value is null")
                             }
                             Filter.USER_FACING_TIME -> {
-                                minimumFilterValueUserFacingTime?.run {
+                                racpData.minimumFilterValueUserFacingTime?.run {
                                     putBluetoothDateTime(this)
                                 } ?: throw  NullPointerException("The minimum value is null")
                             }
@@ -268,16 +231,16 @@ class RACP : BaseCharacteristic, Composable {
                 }
                 Operator.LESS_THAN_OR_EQUAL_TO -> {
                     putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    filterType?.run {
+                    racpData.filterType?.run {
                         putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
                         when (this) {
                             Filter.SEQUENCE_NUMBER -> {
-                                maximumFilterValueSequenceNumber?.run {
+                                racpData.maximumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT16)
                                 } ?: throw NullPointerException("The maximum value is null")
                             }
                             Filter.USER_FACING_TIME -> {
-                                maximumFilterValueUserFacingTime?.run {
+                                racpData.maximumFilterValueUserFacingTime?.run {
                                     putBluetoothDateTime(this)
                                 } ?: throw  NullPointerException("The maximum value is null")
                             }
@@ -289,22 +252,22 @@ class RACP : BaseCharacteristic, Composable {
                 }
                 Operator.WITHIN_RANGE_OF_INCLUSIVE -> {
                     putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    filterType?.run {
+                    racpData.filterType?.run {
                         putIntValue(this.key, BluetoothGattCharacteristic.FORMAT_UINT8)
                         when (this) {
                             Filter.SEQUENCE_NUMBER -> {
-                                minimumFilterValueSequenceNumber?.run {
+                                racpData.minimumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT16)
                                 } ?: throw NullPointerException("The minimum value is null")
-                                maximumFilterValueSequenceNumber?.run {
+                                racpData.maximumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT16)
                                 } ?: throw NullPointerException("The maximum value is null")
                             }
                             Filter.USER_FACING_TIME -> {
-                                minimumFilterValueUserFacingTime?.run {
+                                racpData.minimumFilterValueUserFacingTime?.run {
                                     putBluetoothDateTime(this)
                                 } ?: throw NullPointerException("The minimum value is null")
-                                maximumFilterValueUserFacingTime?.run {
+                                racpData.maximumFilterValueUserFacingTime?.run {
                                     putBluetoothDateTime(this)
                                 } ?: throw  NullPointerException("The maximum value is null")
                             }

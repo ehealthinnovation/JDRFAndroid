@@ -13,6 +13,6 @@ interface Composable {
      * Compose a given characteristic into the resulting [ByteArray].
      */
     @Throws(IllegalStateException::class)
-    fun composeCharacteristic(hasCrc : Boolean): ByteArray
+    fun composeCharacteristic(): ByteArray
 
 }
