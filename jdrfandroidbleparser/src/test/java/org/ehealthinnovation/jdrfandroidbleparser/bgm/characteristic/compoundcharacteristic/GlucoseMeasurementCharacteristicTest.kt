@@ -1,12 +1,9 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundcharacteristic
 
-import android.bluetooth.BluetoothGattCharacteristic
-import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Flags
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SampleLocation
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Type
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.utility.BluetoothDateTime
+import org.ehealthinnovation.jdrfandroidbleparser.utility.BluetoothDateTime
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.Units
 import org.junit.Assert
@@ -15,7 +12,6 @@ import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.types.checker.TypeIntersector
 
 class GlucoseMeasurementCharacteristicTest : BaseTest() {
 

@@ -1,11 +1,10 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common.BaseCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId.Companion.fromVendorId
-import kotlin.jvm.java
 
 /**
  * The PnP_ID characteristic is a set of values that used to create a device ID value that is

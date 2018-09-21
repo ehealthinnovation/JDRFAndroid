@@ -1,8 +1,10 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common
+package org.ehealthinnovation.jdrfandroidbleparser.common
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.FormatType
+import org.ehealthinnovation.jdrfandroidbleparser.utility.CrcHelper
+import java.util.*
 import kotlin.jvm.Throws
 import kotlin.jvm.java
 
@@ -17,12 +19,26 @@ abstract class BaseCharacteristic(val uuid: Int) {
      * If the characteristic is null, which is possible, we just return false so the requesting
      * process can handle the failed parse. This is done in the super class, so we don't have to
      * deal with it in every other sub class characteristic.
+     *
+     * The default value for CRC check is false. There are some characteristics that requires a
+     * first pass of parsing to know if CRC is present, and a second pass to parse the content with
+     * the [hasCrc] flag set correctly.
+     *
+     *
      */
-    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int): this(uuid) {
-        this.characteristic = characteristic
-        characteristic?.let {
-            rawData = it.value ?: ByteArray(0)
-            this.successfulParsing = tryParse(it)
+    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int, hasCrc: Boolean = false, isComposing: Boolean = false): this(uuid) {
+        if(!isComposing) {
+            this.characteristic = characteristic
+            characteristic?.let {
+                rawData = it.value ?: ByteArray(0)
+                this.successfulParsing = tryParse(it, hasCrc)
+            }
+        }else{
+            characteristic?.let {
+                this.composingcharacteristic = it }
+            if(characteristic == null){
+                this.composingcharacteristic = BluetoothGattCharacteristic(UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_WRITE, BluetoothGattCharacteristic.PERMISSION_WRITE)
+            }
         }
     }
 
@@ -32,16 +48,27 @@ abstract class BaseCharacteristic(val uuid: Int) {
     var characteristic: BluetoothGattCharacteristic? = null
     var successfulParsing: Boolean = false
     var offset = 0
+    /**A dummy characteristic for composing a new characteristic*/
+    private var composingcharacteristic: BluetoothGattCharacteristic? = null
 
     /**
      * Swallowing the exception is one of two viable options, some users might want any error to
      * bubble up all the way immediately.
      *
      * https://github.com/markiantorno/JDRFAndroidBLEParser/issues/1
+     * @param c  The [BluetoothGattCharacteristic] to parse
+     * @param checkCrc if CRC check is needed. Default if false
+     * @return true if parsing is successful
+     *
      */
-    fun tryParse(c: BluetoothGattCharacteristic): Boolean {
+    fun tryParse(c: BluetoothGattCharacteristic, checkCrc : Boolean = false): Boolean {
         var errorFreeParse = false
         try {
+            if(checkCrc){
+                if(!testCrc(rawData)){
+                    throw Exception("CRC16 check failed");
+                }
+            }
             errorFreeParse = parse(c)
         } catch (e: NullPointerException) {
             Log.e(tag, nullValueException)
@@ -50,6 +77,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
         }
         return errorFreeParse
     }
+
 
     /**
      * Each characteristic has it's own set of values which could be of differing types, so we leave
@@ -61,6 +89,34 @@ abstract class BaseCharacteristic(val uuid: Int) {
      * @param c The [BluetoothGattCharacteristic] to parse.
      */
     protected abstract fun parse(c: BluetoothGattCharacteristic): Boolean
+
+    /**
+     * This function tests if the CRC attached at the packet is correct. This function
+     * assumes the CRC is attached at the end of the packet. If it is not the case, subclass
+     * needs to implements this method.
+     * @param data The raw data of the message byte sequence
+     * @return true if the CRC is passed.
+     */
+    protected fun testCrc(data : ByteArray) : Boolean {
+        return CrcHelper.testCcittCrc16(data, data.size)
+    }
+
+    /**
+     * This function append the CRC to the end of the packet.
+     * @param data The raw data of the message byte sequence
+     * @return the resulting [ByteArray] with the CRC attached.
+     */
+    protected fun attachCrc(data: ByteArray? = null) : ByteArray {
+        data?.let {
+            return CrcHelper.attachCcittCrc16ToPacket(data, data.size)
+        }
+        val cRc = CrcHelper.calculateCcittCrc16(rawData, rawData.size).toInt()
+        if(putIntValue(cRc, BluetoothGattCharacteristic.FORMAT_UINT16)) {
+            return rawData
+        }else{
+            throw IllegalStateException("Unable to append CRC")
+        }
+    }
 
     /**
      * Returns the stored [String] value of this characteristic.
@@ -130,6 +186,31 @@ abstract class BaseCharacteristic(val uuid: Int) {
             } ?: throw NullPointerException("Format \"$formatType\" at offset \"$offset\" does " +
                     "not relate to valid Float value...")
 
+    @Throws(NullPointerException::class)
+
+    /**
+     * Put the input [value] of Bluetooth type [formatType] into a the internal [composingcharacteristic]
+     * object. The [offset] property will be incremented by the size of  [formatType]
+     *
+     * @param value The integer value to be put into the serial buffer
+     * @param formatType Int indicating the format type of the input. An example is
+     * [BluetoothGattCharacteristic.FORMAT_UINT8]
+     * @return true if operation is successful; false otherwise
+     * @throws NullPointerException If the internal serialization buffer [composingcharacteristic]
+     * is null, this happens when [BaseCharacteristic]
+     */
+    protected fun putIntValue(value :Int, formatType: Int) : Boolean{
+       composingcharacteristic?.run {
+           val results = this.setValue(value, formatType, offset)
+           if(results) {
+               offset = getNextOffset(formatType, offset)
+               rawData = this.value ?: ByteArray(0)
+           }
+           return results
+       } ?: throw NullPointerException("composingcharacteristic is null, make sure the " +
+               "characteristic is initiated with the composing constructor")
+    }
+
     /**
      * Increments the current read index by the appropriate amount for the format type passed in.
      *
@@ -144,5 +225,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
         } ?: Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
         return newIndex
     }
+
+
 
 }

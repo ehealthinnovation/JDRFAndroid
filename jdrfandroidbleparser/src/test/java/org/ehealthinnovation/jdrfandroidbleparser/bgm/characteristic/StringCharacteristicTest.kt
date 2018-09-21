@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common.StringCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.common.StringCharacteristic
 import org.junit.Assert
 import org.junit.Test
 import kotlin.jvm.java

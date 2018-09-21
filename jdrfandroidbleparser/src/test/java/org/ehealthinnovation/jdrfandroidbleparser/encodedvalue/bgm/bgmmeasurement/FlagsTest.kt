@@ -1,17 +1,16 @@
-package org.ehealthinnovation.jdrfandroidbleparser.encodedvalues.bgmcontext
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.bgmmeasurement
 
 import junit.framework.Assert
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
-import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.contextmeasurement.Flags
+import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Flags
 import org.junit.Test
 import java.util.*
 
-class FlagsTest : BaseTest() {
-
+class FlagsTest : BaseTest(){
     @Test
     fun testEach() {
         enumValues<Flags>().forEach {
-            val parseFlags = Flags.parseFlags(it.bit)
+            val parseFlags = Flags.parsFlags(it.bit)
             Assert.assertTrue(parseFlags.contains(it))
         }
     }
@@ -23,10 +22,11 @@ class FlagsTest : BaseTest() {
         enumValues<Flags>().forEach {
             setFlags.add(it)
             currentMask = currentMask.or(it.bit)
-            val parseFlags = Flags.parseFlags(currentMask)
+            val parseFlags = Flags.parsFlags(currentMask)
             setFlags.forEach {
                 Assert.assertTrue(parseFlags.contains(it))
             }
         }
     }
+
 }

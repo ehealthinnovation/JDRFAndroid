@@ -1,15 +1,14 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.util.Log
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Flags
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SampleLocation
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SensorStatusAnnunciation
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Type
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.utility.BluetoothDateTime
+import org.ehealthinnovation.jdrfandroidbleparser.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.Units
+import org.ehealthinnovation.jdrfandroidbleparser.utility.BluetoothDateTime
 import java.util.*
 
 /**
@@ -81,8 +80,7 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
                 sampleLocation = SampleLocation.fromKey((tempIntHolder and 0xF0) shr 4)
                 if (it.contains(Flags.GLUCOSE_CONCENTRATION_UNITS)) {
                     unit = Units.MOLE_PER_LITRE
-                }
-                else {
+                } else {
                     unit = Units.KILOGRAM_PER_LITRE
                 }
             }
