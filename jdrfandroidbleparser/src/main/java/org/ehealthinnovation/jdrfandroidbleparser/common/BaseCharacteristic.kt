@@ -38,9 +38,11 @@ abstract class BaseCharacteristic(val uuid: Int) {
                 this.composingcharacteristic = it }
             if(characteristic == null){
                 this.composingcharacteristic = BluetoothGattCharacteristic(UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_WRITE, BluetoothGattCharacteristic.PERMISSION_WRITE)
+
             }
         }
     }
+
 
     open val tag = BaseCharacteristic::class.java.canonicalName as String
     val nullValueException = "Null characteristic interpretation, aborting parsing."

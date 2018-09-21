@@ -1,6 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundcharacteristic
 
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
+import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.dataobjects.RACPDataObject
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp.Filter
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp.Opcode
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.racp.Operator
@@ -603,7 +604,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testParsingOpcode\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedOpcode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).opcode)
+            Assert.assertEquals(testVector.value.expectedOpcode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.opcode)
         }
     }
 
@@ -612,7 +613,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testParsingOperator\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedOperator, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).operator)
+            Assert.assertEquals(testVector.value.expectedOperator, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.operator)
         }
     }
 
@@ -621,7 +622,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testParsingFilter\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedFilter, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).filterType)
+            Assert.assertEquals(testVector.value.expectedFilter, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.filterType)
         }
     }
 
@@ -630,7 +631,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testMinimumSequenceNumber\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedMinimumSequenceNumber, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).minimumFilterValueSequenceNumber)
+            Assert.assertEquals(testVector.value.expectedMinimumSequenceNumber, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.minimumFilterValueSequenceNumber)
         }
     }
 
@@ -639,7 +640,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testMaximumSequenceNumber\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedMaximumSequenceNumber, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).maximumFilterValueSequenceNumber)
+            Assert.assertEquals(testVector.value.expectedMaximumSequenceNumber, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.maximumFilterValueSequenceNumber)
         }
     }
 
@@ -648,7 +649,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testMinimumUserFacingTime\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedMinimumUserFacingTime, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).minimumFilterValueUserFacingTime)
+            Assert.assertEquals(testVector.value.expectedMinimumUserFacingTime, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.minimumFilterValueUserFacingTime)
         }
     }
 
@@ -657,7 +658,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testMaximumUserFacingTime\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedMaximumUserFacingTime, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).maximumFilterValueUserFacingTime)
+            Assert.assertEquals(testVector.value.expectedMaximumUserFacingTime, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.maximumFilterValueUserFacingTime)
         }
     }
 
@@ -666,7 +667,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testRequestedOpcode\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedRequestOpcode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).requestOpcode)
+            Assert.assertEquals(testVector.value.expectedRequestOpcode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.requestOpcode)
         }
     }
 
@@ -675,7 +676,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testRequestedResponse\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedResponseCode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).responseCode)
+            Assert.assertEquals(testVector.value.expectedResponseCode, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.responseCode)
         }
     }
 
@@ -684,7 +685,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testNumberOfRecordResponse\n")
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedNumberOfRecord, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).numberOfRecordResponse)
+            Assert.assertEquals(testVector.value.expectedNumberOfRecord, RACP(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).racpData.numberOfRecordResponse)
         }
     }
 
@@ -694,6 +695,7 @@ class RACPTest : BaseTest() {
         var testRacp: RACP
         var successCount = 0
         var skipCount = 0
+        var racpData: RACPDataObject
 
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
@@ -703,18 +705,20 @@ class RACPTest : BaseTest() {
                 continue
             }
             testRacp = RACP(mockBTCharacteristic(ByteArray(0)), testVector.value.hasCrc, isComposing = true)
-            testRacp.operator = testVector.value.expectedOperator
-            testRacp.opcode = testVector.value.expectedOpcode
-            testRacp.filterType = testVector.value.expectedFilter
-            testRacp.minimumFilterValueUserFacingTime = testVector.value.expectedMinimumUserFacingTime
-            testRacp.minimumFilterValueSequenceNumber = testVector.value.expectedMinimumSequenceNumber
-            testRacp.maximumFilterValueUserFacingTime = testVector.value.expectedMaximumUserFacingTime
-            testRacp.maximumFilterValueSequenceNumber = testVector.value.expectedMaximumSequenceNumber
-            testRacp.requestOpcode = testVector.value.expectedRequestOpcode
-            testRacp.responseCode = testVector.value.expectedResponseCode
-            testRacp.hasCrc = testVector.value.hasCrc
-            testRacp.numberOfRecordResponse = testVector.value.expectedNumberOfRecord
-            val composedPacket = testRacp.composeCharacteristic(testVector.value.hasCrc)
+            racpData = RACPDataObject()
+            racpData.operator = testVector.value.expectedOperator
+            racpData.opcode = testVector.value.expectedOpcode
+            racpData.filterType = testVector.value.expectedFilter
+            racpData.minimumFilterValueUserFacingTime = testVector.value.expectedMinimumUserFacingTime
+            racpData.minimumFilterValueSequenceNumber = testVector.value.expectedMinimumSequenceNumber
+            racpData.maximumFilterValueUserFacingTime = testVector.value.expectedMaximumUserFacingTime
+            racpData.maximumFilterValueSequenceNumber = testVector.value.expectedMaximumSequenceNumber
+            racpData.requestOpcode = testVector.value.expectedRequestOpcode
+            racpData.responseCode = testVector.value.expectedResponseCode
+            racpData.hasCrc = testVector.value.hasCrc
+            racpData.numberOfRecordResponse = testVector.value.expectedNumberOfRecord
+            testRacp.racpData = racpData
+            val composedPacket = testRacp.composeCharacteristic()
             System.out.printf("composed: " + composedPacket.contentToString() + "\n")
             System.out.printf("test packet: " + testVector.value.testPacket.contentToString() + "\n")
             Assert.assertTrue(testVector.value.testPacket.contentEquals(composedPacket))
@@ -727,6 +731,7 @@ class RACPTest : BaseTest() {
         System.out.printf("testAppendingCrC in RACP\n")
         var testRacp: RACP
         var skipCount = 0
+        var racpData: RACPDataObject
 
         for (testVector in racpTestVectors) {
             System.out.printf("testing racpTestVector ${testVector.key}\n")
@@ -736,18 +741,21 @@ class RACPTest : BaseTest() {
                 continue
             }
             testRacp = RACP(mockBTCharacteristic(ByteArray(0)), testVector.value.hasCrc, isComposing = true)
-            testRacp.operator = testVector.value.expectedOperator
-            testRacp.opcode = testVector.value.expectedOpcode
-            testRacp.filterType = testVector.value.expectedFilter
-            testRacp.minimumFilterValueUserFacingTime = testVector.value.expectedMinimumUserFacingTime
-            testRacp.minimumFilterValueSequenceNumber = testVector.value.expectedMinimumSequenceNumber
-            testRacp.maximumFilterValueUserFacingTime = testVector.value.expectedMaximumUserFacingTime
-            testRacp.maximumFilterValueSequenceNumber = testVector.value.expectedMaximumSequenceNumber
-            testRacp.requestOpcode = testVector.value.expectedRequestOpcode
-            testRacp.responseCode = testVector.value.expectedResponseCode
-            testRacp.hasCrc = testVector.value.hasCrc
-            testRacp.numberOfRecordResponse = testVector.value.expectedNumberOfRecord
-            val composedPacket = testRacp.composeCharacteristic(testVector.value.hasCrc)
+            racpData = RACPDataObject()
+
+            racpData.operator = testVector.value.expectedOperator
+            racpData.opcode = testVector.value.expectedOpcode
+            racpData.filterType = testVector.value.expectedFilter
+            racpData.minimumFilterValueUserFacingTime = testVector.value.expectedMinimumUserFacingTime
+            racpData.minimumFilterValueSequenceNumber = testVector.value.expectedMinimumSequenceNumber
+            racpData.maximumFilterValueUserFacingTime = testVector.value.expectedMaximumUserFacingTime
+            racpData.maximumFilterValueSequenceNumber = testVector.value.expectedMaximumSequenceNumber
+            racpData.requestOpcode = testVector.value.expectedRequestOpcode
+            racpData.responseCode = testVector.value.expectedResponseCode
+            racpData.hasCrc = testVector.value.hasCrc
+            racpData.numberOfRecordResponse = testVector.value.expectedNumberOfRecord
+            testRacp.racpData = racpData
+            val composedPacket = testRacp.composeCharacteristic()
             System.out.printf("composed: " + composedPacket.contentToString() + "\n")
             System.out.printf("test packet: " + testVector.value.testPacket.contentToString() + "\n")
             Assert.assertTrue(testVector.value.testPacket.contentEquals(composedPacket))
