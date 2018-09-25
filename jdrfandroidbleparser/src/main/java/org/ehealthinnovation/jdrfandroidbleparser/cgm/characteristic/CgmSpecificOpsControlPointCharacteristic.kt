@@ -6,6 +6,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.cgm.dataobject.CalibrationReco
 import org.ehealthinnovation.jdrfandroidbleparser.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.common.Composable
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.cgmcp.CalibrationStatus
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.cgmcp.Opcode
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.cgm.cgmcp.ResponseCode
 
@@ -107,15 +108,80 @@ class CgmSpecificOpsControlPointCharacteristic : BaseCharacteristic, Composable 
 
     override fun composeCharacteristic(hasCrc: Boolean): ByteArray {
         opcode?.let {opcode->
+            putIntValue(opcode.key, BluetoothGattCharacteristic.FORMAT_UINT8)
             when(opcode){
-                Opcode.SET_CGM_COMMUNICATION_INTERVAL->{
-                    putIntValue(opcode.key, BluetoothGattCharacteristic.FORMAT_UINT8)
-
+                Opcode.SET_CGM_COMMUNICATION_INTERVAL,
+                Opcode.CGM_COMMUNICATION_INTERVAL_RESPONSE->{
+                    operandUnsignedInteger?.let {
+                        putIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT8)
+                    }?: throw NullPointerException("operand is null")
                 }
-
+                Opcode.GET_CGM_COMMUNICATION_INTERVAL,
+                Opcode.GET_PATIENT_HIGH_ALERT_LEVEL,
+                Opcode.GET_PATIENT_LOW_ALERT_LEVEL,
+                Opcode.GET_HYPO_ALERT_LEVEL,
+                Opcode.GET_HYPER_ALERT_LEVEL,
+                Opcode.GET_RATE_OF_INCREASE_ALERT_LEVEL,
+                Opcode.GET_RATE_OF_DECREASE_ALERT_LEVEL,
+                Opcode.RESET_DEVICE_SPECIFIC_ALERT,
+                Opcode.START_THE_SESSION,
+                Opcode.STOP_THE_SESSION->{
+                }
+                Opcode.SET_GLUCOSE_CALIBRATION_VALUE,
+                Opcode.GLUCOSE_CALIBRATION_VALUE_RESPONSE->{
+                    composeCalibrationRecordOperand()
+                }
+                Opcode.GET_GLUCOSE_CALIBRATION_VALUE->{
+                    operandUnsignedInteger?.let {
+                        putIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT16)
+                    }?: throw NullPointerException("operand is null")
+                }
+                Opcode.SET_PATIENT_HIGH_ALERT_LEVEL,
+                Opcode.SET_PATIENT_LOW_ALERT_LEVEL,
+                Opcode.SET_HYPER_ALERT_LEVEL,
+                Opcode.SET_HYPO_ALERT_LEVEL,
+                Opcode.SET_RATE_OF_INCREASE_ALERT_LEVEL,
+                Opcode.SET_RATE_OF_DECREASE_ALERT_LEVEL,
+                Opcode.PATIENT_HIGH_ALERT_LEVEL_RESPONSE,
+                Opcode.PATIENT_LOW_ALERT_LEVEL_RESPONSE,
+                Opcode.HYPER_ALERT_LEVEL_RESPONSE,
+                Opcode.HYPO_ALERT_LEVEL_RESPONSE,
+                Opcode.RATE_OF_DECREASE_ALERT_LEVEL_RESPONSE,
+                Opcode.RATE_OF_INCREASE_ALERT_LEVEL_RESPONSE->{
+                    operandShortFloat?.let {
+                        putFloatValue(it.toInt(), 0, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                    }?: throw NullPointerException("operand is null")
+                }
+                Opcode.RESPONSE_CODE->{
+                    operandRequestOpcode?.let {
+                        putIntValue(it.key, BluetoothGattCharacteristic.FORMAT_UINT8)
+                    }
+                    operandResponseCode?.let {
+                        putIntValue(it.key, BluetoothGattCharacteristic.FORMAT_UINT8)
+                    }
+                }
+                else->{
+                    throw IllegalArgumentException("Unknown opcode")
+                }
             }
-
         }
+        if(hasCrc){
+            attachCrc()
+        }
+            return rawData
+    }
+
+    private fun composeCalibrationRecordOperand(){
+        operandCalibrationRecord?.let{
+          putFloatValue(it.glucoseConcentrationOfCalibration.toInt(), 0, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+            putIntValue(it.calibrationTime, BluetoothGattCharacteristic.FORMAT_UINT16)
+            putIntValue(it.calibrationTime, BluetoothGattCharacteristic.FORMAT_UINT16)
+            putIntValue(it.calibrationType.key and (it.calibrationSampleLocation.key shl 4), BluetoothGattCharacteristic.FORMAT_UINT8)
+            putIntValue(it.nextCalibrationTime, BluetoothGattCharacteristic.FORMAT_UINT16)
+            putIntValue(it.calibrationDataRecordNumber, BluetoothGattCharacteristic.FORMAT_UINT16)
+            putIntValue(CalibrationStatus.composeFlags(it.calibrationStatusFlags), BluetoothGattCharacteristic.FORMAT_UINT8)
+        }?: throw NullPointerException("calibration record is null")
+
 
     }
 

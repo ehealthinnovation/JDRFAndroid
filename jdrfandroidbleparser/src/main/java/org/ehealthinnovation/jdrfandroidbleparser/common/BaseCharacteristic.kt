@@ -211,6 +211,18 @@ abstract class BaseCharacteristic(val uuid: Int) {
                "characteristic is initiated with the composing constructor")
     }
 
+    protected fun putFloatValue(mantissa: Int, exponent: Int, formatType: Int ) : Boolean{
+        composingcharacteristic?.run {
+            val result = this.setValue(mantissa, exponent, formatType, offset)
+            if (result){
+                offset = getNextOffset(formatType, offset)
+                rawData = this.value ?: ByteArray(0)
+            }
+            return result
+        } ?: throw NullPointerException("composingcharacteristic is null, make sure the " +
+            "characteristic is initiated with the composing constructor")
+    }
+
     /**
      * Increments the current read index by the appropriate amount for the format type passed in.
      *

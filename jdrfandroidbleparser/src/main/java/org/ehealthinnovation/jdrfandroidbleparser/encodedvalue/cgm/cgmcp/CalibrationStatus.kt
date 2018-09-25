@@ -20,6 +20,14 @@ enum class CalibrationStatus constructor(val bit: Int) {
             }
             return setFlags
         }
+
+        fun composeFlags(flags: EnumSet<CalibrationStatus>) :Int {
+            var output = 0
+            for (flag in flags){
+                output += flag.bit
+            }
+            return output
+        }
     }
 
 }
