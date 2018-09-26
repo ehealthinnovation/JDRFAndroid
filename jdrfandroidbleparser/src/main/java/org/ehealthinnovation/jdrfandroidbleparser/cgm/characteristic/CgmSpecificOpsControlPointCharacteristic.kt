@@ -175,8 +175,7 @@ class CgmSpecificOpsControlPointCharacteristic : BaseCharacteristic, Composable 
         operandCalibrationRecord?.let{
           putFloatValue(it.glucoseConcentrationOfCalibration.toInt(), 0, BluetoothGattCharacteristic.FORMAT_SFLOAT)
             putIntValue(it.calibrationTime, BluetoothGattCharacteristic.FORMAT_UINT16)
-            putIntValue(it.calibrationTime, BluetoothGattCharacteristic.FORMAT_UINT16)
-            putIntValue(it.calibrationType.key and (it.calibrationSampleLocation.key shl 4), BluetoothGattCharacteristic.FORMAT_UINT8)
+            putIntValue(it.calibrationType.key + (it.calibrationSampleLocation.key shl 4), BluetoothGattCharacteristic.FORMAT_UINT8)
             putIntValue(it.nextCalibrationTime, BluetoothGattCharacteristic.FORMAT_UINT16)
             putIntValue(it.calibrationDataRecordNumber, BluetoothGattCharacteristic.FORMAT_UINT16)
             putIntValue(CalibrationStatus.composeFlags(it.calibrationStatusFlags), BluetoothGattCharacteristic.FORMAT_UINT8)

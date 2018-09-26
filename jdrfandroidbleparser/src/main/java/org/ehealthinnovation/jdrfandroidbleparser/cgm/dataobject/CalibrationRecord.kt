@@ -82,6 +82,6 @@ class CalibrationRecord{
         this.calibrationSampleLocation = calibrationSampleLocation
         this.nextCalibrationTime = nextCalibrationTime
         this.calibrationDataRecordNumber = calibrationDataRecordNumber
-        this.calibrationStatusFlags = calibrationStatusFlags
+        this.calibrationStatusFlags = calibrationStatus
     }
 }

@@ -22,6 +22,7 @@ enum class CalibrationStatus constructor(val bit: Int) {
         }
 
         fun composeFlags(flags: MutableSet<CalibrationStatus>) :Int {
+            System.out.printf("enum set of $flags ")
             var output = 0
             for (flag in flags){
                 output += flag.bit

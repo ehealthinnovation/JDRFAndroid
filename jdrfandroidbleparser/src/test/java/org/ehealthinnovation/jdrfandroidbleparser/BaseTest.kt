@@ -374,8 +374,8 @@ open class BaseTest {
         }
         when(FormatType.fromType(formatType)){
             FORMAT_SFLOAT->{
-                var lsb = mantissa and 0x000F
-                var msb = (exponent and 0b00001111) + (mantissa and 0x007F)
+                var lsb = mantissa and 0x00FF
+                var msb = (exponent and 0b00001111) shl 4 + (mantissa and 0x0700)
                 mockPayload.set(offset, lsb.toByte())
                 mockPayload.set(offset+1, msb.toByte())
                 return true

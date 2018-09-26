@@ -64,7 +64,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                         nextCalibrationTime = 1027,
                         calibrationType = CgmType.INTERSTITIAL_FLUID,
                         calibrationSampleLocation = CgmSampleLocation.ALTERNATE_SITE_TEST,
-                        calibrationStatus = EnumSet.noneOf(CalibrationStatus::class.java)
+                        calibrationStatus = EnumSet.of<CalibrationStatus>(CalibrationStatus.CALIBRATION_PROCESS_PENDING)
                 )
         )
 
@@ -194,7 +194,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Generic response - stop session, invalid operand
          */
         testVectors[11] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x1c, 0x1b, 0x02),
+                testPacket = byteArrayOf(0x1c, 0x1b, 0x03),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.RESPONSE_CODE,
@@ -255,7 +255,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Test Packet 15
          * Set patient  high */
         testVectors[15] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x07, 0x3a, 0xf2.toByte()),
+                testPacket = byteArrayOf(0x07, 0x39, 0x00.toByte()),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.SET_PATIENT_HIGH_ALERT_LEVEL,
@@ -269,7 +269,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Test Packet 16
          * Set patient  low */
         testVectors[16] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x0a, 0x3a, 0xf2.toByte()),
+                testPacket = byteArrayOf(0x0a, 0x39, 0x00.toByte()),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.SET_PATIENT_LOW_ALERT_LEVEL,
@@ -283,7 +283,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Test Packet 17
          * Set  Hypo Alert*/
         testVectors[17] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x0D, 0x3a, 0xf2.toByte()),
+                testPacket = byteArrayOf(0x0D, 0x39, 0x00.toByte()),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.SET_HYPO_ALERT_LEVEL,
@@ -297,7 +297,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Test Packet 18
          * Set  Hyper Alert*/
         testVectors[18] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x10, 0x3a, 0xf2.toByte()),
+                testPacket = byteArrayOf(0x10, 0x39, 0x00.toByte()),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.SET_HYPER_ALERT_LEVEL,
@@ -311,7 +311,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Test Packet 19
          * Set Rate of Decrease*/
         testVectors[19] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x13, 0x3a, 0xf2.toByte()),
+                testPacket = byteArrayOf(0x13, 0x39, 0x00.toByte()),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.SET_RATE_OF_DECREASE_ALERT_LEVEL,
@@ -325,7 +325,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
          * Test Packet 20
          * Set Rate of Increase*/
         testVectors[20] = CGMCPTestVector(
-                testPacket = byteArrayOf(0x16, 0x3a, 0xf2.toByte()),
+                testPacket = byteArrayOf(0x16, 0x39, 0x00.toByte()),
                 hasCrc =  false,
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.SET_RATE_OF_INCREASE_ALERT_LEVEL,
@@ -442,7 +442,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                         nextCalibrationTime = 1027,
                         calibrationType = CgmType.INTERSTITIAL_FLUID,
                         calibrationSampleLocation = CgmSampleLocation.ALTERNATE_SITE_TEST,
-                        calibrationStatus = EnumSet.noneOf(CalibrationStatus::class.java)
+                        calibrationStatus = EnumSet.of(CalibrationStatus.CALIBRATION_PROCESS_PENDING)
                 )
         )
 
