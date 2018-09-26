@@ -99,6 +99,22 @@ open class BaseTest {
                     }
                 }
             }
+            on {setValue(any(Int::class.java), any(Int::class.java), any(Int::class.java), any(Int::class.java))} doAnswer {
+                val mantissa: Int = it.getArgument(0)
+                val exponent: Int = it.getArgument(1)
+                val formatType : Int = it.getArgument(2)
+                val offset: Int = it.getArgument(3)
+
+                when (FormatType.fromType(formatType)) {
+                    FORMAT_SFLOAT->{
+                        setPayloadValueFloat(mantissa, exponent, formatType, offset)
+                    }
+                    else->{
+                        throw IllegalArgumentException("Unknown type")
+                    }
+                }
+
+            }
         }
     }
 
@@ -341,6 +357,27 @@ open class BaseTest {
             FORMAT_UINT16->{
                 mockPayload.set(offset, value.toByte())
                 mockPayload.set(offset+1, (value shr 8).toByte())
+                return true
+            }
+            else ->{
+                throw IllegalArgumentException("Currently we does not support this integer type")
+            }
+        }
+        return false
+    }
+
+    fun setPayloadValueFloat(mantissa:Int, exponent: Int, formatType:Int, offset:Int):Boolean{
+
+        val newArraySize = getFormatTypeSize(formatType)+offset
+        if(newArraySize>mockPayload.size){
+            mockPayload = mockPayload.copyOf(newArraySize)
+        }
+        when(FormatType.fromType(formatType)){
+            FORMAT_SFLOAT->{
+                var lsb = mantissa and 0x000F
+                var msb = (exponent and 0b00001111) + (mantissa and 0x007F)
+                mockPayload.set(offset, lsb.toByte())
+                mockPayload.set(offset+1, msb.toByte())
                 return true
             }
             else ->{

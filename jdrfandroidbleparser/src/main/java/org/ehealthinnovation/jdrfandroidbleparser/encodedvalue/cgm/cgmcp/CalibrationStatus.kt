@@ -21,7 +21,7 @@ enum class CalibrationStatus constructor(val bit: Int) {
             return setFlags
         }
 
-        fun composeFlags(flags: EnumSet<CalibrationStatus>) :Int {
+        fun composeFlags(flags: MutableSet<CalibrationStatus>) :Int {
             var output = 0
             for (flag in flags){
                 output += flag.bit
