@@ -51,7 +51,7 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
 
     var c: Calendar? = null
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParse = false
         // These flags define which data fields are present in the Characteristic value
         Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {

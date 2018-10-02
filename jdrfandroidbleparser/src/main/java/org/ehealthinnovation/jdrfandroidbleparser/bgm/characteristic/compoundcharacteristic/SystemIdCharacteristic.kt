@@ -31,7 +31,7 @@ class SystemIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     // Bluetooth Device Address with a Company Identifier (OUI)
     var oui: Long? = null
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         manufacturerIdentifier = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() +
                 (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() shl 16) +
                 (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).toLong() shl 32)

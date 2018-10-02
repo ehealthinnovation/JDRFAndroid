@@ -26,12 +26,12 @@ abstract class BaseCharacteristic(val uuid: Int) {
      *
      *
      */
-    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int, hasCrc: Boolean = false, isComposing: Boolean = false): this(uuid) {
+    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int, hasCrc: Boolean = false, isComposing: Boolean = false, hasE2eCounter: Boolean = false): this(uuid) {
         if(!isComposing) {
             this.characteristic = characteristic
             characteristic?.let {
                 rawData = it.value ?: ByteArray(0)
-                this.successfulParsing = tryParse(it, hasCrc)
+                this.successfulParsing = tryParse(it, hasCrc, hasE2eCounter)
             }
         }else{
             characteristic?.let {
@@ -61,7 +61,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
      * @return true if parsing is successful
      *
      */
-    fun tryParse(c: BluetoothGattCharacteristic, checkCrc : Boolean = false): Boolean {
+    fun tryParse(c: BluetoothGattCharacteristic, checkCrc : Boolean = false, hasE2eCounter: Boolean = false): Boolean {
         var errorFreeParse = false
         try {
             if(checkCrc){
@@ -69,7 +69,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
                     throw Exception("CRC16 check failed");
                 }
             }
-            errorFreeParse = parse(c)
+            errorFreeParse = parse(c, hasE2eCounter)
         } catch (e: NullPointerException) {
             Log.e(tag, nullValueException)
         } catch (e: Exception) {
@@ -88,7 +88,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
      *
      * @param c The [BluetoothGattCharacteristic] to parse.
      */
-    protected abstract fun parse(c: BluetoothGattCharacteristic): Boolean
+    protected abstract fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean = false): Boolean
 
     /**
      * This function tests if the CRC attached at the packet is correct. This function

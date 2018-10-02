@@ -27,7 +27,7 @@ class GlucoseFeatureCharacteristic(characteristic: BluetoothGattCharacteristic?)
      */
     private var flags: EnumSet<Flags>? = null
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParse = false
 
         flags = Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))

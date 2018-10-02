@@ -37,7 +37,7 @@ class CgmFeatureCharacteristic(characteristic: BluetoothGattCharacteristic?) :Ba
      * The parsing of this characteristic consists of two passes. The pass determine if CRC is present
      * The second pass verify that the CRC is right if it is present.
      */
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParse = false
         var flagValue : Int = 0
         //The feature flag consist of 24 bit, which is not a standard data field length.

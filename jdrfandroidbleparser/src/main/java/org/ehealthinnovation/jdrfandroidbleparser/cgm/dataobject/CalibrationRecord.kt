@@ -84,4 +84,22 @@ class CalibrationRecord{
         this.calibrationDataRecordNumber = calibrationDataRecordNumber
         this.calibrationStatusFlags = calibrationStatus
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CalibrationRecord
+
+        if (glucoseConcentrationOfCalibration != other.glucoseConcentrationOfCalibration) return false
+        if (calibrationTime != other.calibrationTime) return false
+        if (calibrationType != other.calibrationType) return false
+        if (calibrationSampleLocation != other.calibrationSampleLocation) return false
+        if (nextCalibrationTime != other.nextCalibrationTime) return false
+        if (calibrationDataRecordNumber != other.calibrationDataRecordNumber) return false
+        if (calibrationStatusFlags != other.calibrationStatusFlags) return false
+
+        return true
+    }
+
 }

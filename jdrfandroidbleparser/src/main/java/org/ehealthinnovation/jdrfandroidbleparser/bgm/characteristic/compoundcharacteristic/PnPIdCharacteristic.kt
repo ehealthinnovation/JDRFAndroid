@@ -27,7 +27,7 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     // Manufacturer managed version for this product
     var productVersion: Int? = null
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         vendorIdSource = fromVendorId(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         vendorId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
         productId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)

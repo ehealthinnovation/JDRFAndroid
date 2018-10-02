@@ -20,7 +20,7 @@ class CgmSessionRunTime(characteristic: BluetoothGattCharacteristic?, hasCrc: Bo
      */
     var sessionRunTime : Int? = null
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParse = false
         sessionRunTime = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
         errorFreeParse = sessionRunTime != null

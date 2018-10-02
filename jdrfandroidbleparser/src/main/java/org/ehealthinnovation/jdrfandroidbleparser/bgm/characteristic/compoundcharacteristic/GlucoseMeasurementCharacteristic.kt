@@ -54,7 +54,7 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
     /**
      * This function is called when creating an characteristic to parse the binary array stream
      */
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParse = false
         //make sure c is not null
         Flags.parsFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {

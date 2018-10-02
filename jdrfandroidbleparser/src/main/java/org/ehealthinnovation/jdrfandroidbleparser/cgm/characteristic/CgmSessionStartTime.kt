@@ -38,7 +38,7 @@ class CgmSessionStartTime(c : BluetoothGattCharacteristic, hasCrc : Boolean = fa
      var dstOffset : DstOffset? = null
 
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParse = false
         sessionStartTime = BluetoothDateTime(
                 _year = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16),

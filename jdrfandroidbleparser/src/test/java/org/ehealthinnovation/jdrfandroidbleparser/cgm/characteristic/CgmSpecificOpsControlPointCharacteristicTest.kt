@@ -168,7 +168,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.RESPONSE_CODE,
                 expectedOperandUnsignedInt = null,
-                expectedOperandFloat = 57.toFloat(),
+                expectedOperandFloat = null,
                 expectedOperandRequestOpcode = Opcode.STOP_THE_SESSION,
                 expectedOperandResponseCode = ResponseCode.SUCCESS
         )
@@ -183,7 +183,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.RESPONSE_CODE,
                 expectedOperandUnsignedInt = null,
-                expectedOperandFloat = 57.toFloat(),
+                expectedOperandFloat = null,
                 expectedOperandRequestOpcode = Opcode.STOP_THE_SESSION,
                 expectedOperandResponseCode = ResponseCode.OP_CODE_NOT_SUPPORTED
         )
@@ -199,7 +199,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.RESPONSE_CODE,
                 expectedOperandUnsignedInt = null,
-                expectedOperandFloat = 57.toFloat(),
+                expectedOperandFloat = null,
                 expectedOperandRequestOpcode = Opcode.STOP_THE_SESSION,
                 expectedOperandResponseCode = ResponseCode.INVALID_OPERAND
         )
@@ -214,7 +214,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.RESPONSE_CODE,
                 expectedOperandUnsignedInt = null,
-                expectedOperandFloat = 57.toFloat(),
+                expectedOperandFloat = null,
                 expectedOperandRequestOpcode = Opcode.STOP_THE_SESSION,
                 expectedOperandResponseCode = ResponseCode.PROCEDURE_NOT_COMPLETED
         )
@@ -230,7 +230,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
                 expectedParseResult = true,
                 expectedOpcode =  Opcode.RESPONSE_CODE,
                 expectedOperandUnsignedInt = null,
-                expectedOperandFloat = 57.toFloat(),
+                expectedOperandFloat = null,
                 expectedOperandRequestOpcode = Opcode.STOP_THE_SESSION,
                 expectedOperandResponseCode = ResponseCode.PARAMETER_OUT_OF_RANGE
         )
@@ -511,7 +511,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
         System.out.printf("testParseOperandFloat")
         for (testVector in testVectors) {
             System.out.printf("testing testVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedOperandFloat, CgmSpecificOpsControlPointCharacteristic(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).operandShortFloat)
+            Assert.assertEquals(testVector.value.expectedOperandFloat, CgmSpecificOpsControlPointCharacteristic(c = mockBTCharacteristic(testVector.value.testPacket), hasCrc = testVector.value.hasCrc).operandShortFloat)
         }
     }
 
@@ -538,7 +538,7 @@ class CgmSpecificOpsControlPointCharacteristicTest: BaseTest(){
         System.out.printf("testParseOperandCalibrationRecord")
         for (testVector in testVectors) {
             System.out.printf("testing testVector ${testVector.key}\n")
-            Assert.assertEquals(testVector.value.expectedCalibrationRecord, CgmSpecificOpsControlPointCharacteristic(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).operandCalibrationRecord)
+            Assert.assertEquals(true, testVector.value.expectedCalibrationRecord == CgmSpecificOpsControlPointCharacteristic(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc).operandCalibrationRecord)
         }
     }
 

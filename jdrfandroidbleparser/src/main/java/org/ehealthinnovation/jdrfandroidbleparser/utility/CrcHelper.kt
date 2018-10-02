@@ -57,6 +57,7 @@ object CrcHelper {
      * @return true is the message passes the test, false otherwise.
      */
     fun testCcittCrc16(message: ByteArray, length: Int): Boolean {
+        System.out.printf("calculated crc is " + calculateCcittCrc16(message, length-2).toUshort())
         return calculateCcittCrc16(message, length).toInt() == 0
     }
 

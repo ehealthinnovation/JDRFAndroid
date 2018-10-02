@@ -85,7 +85,7 @@ class CgmMeasurementCharacteristic(c :BluetoothGattCharacteristic, hasCrc : Bool
 
 
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParsing = false
         var sizeCounter = 0
         size = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)

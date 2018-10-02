@@ -14,7 +14,7 @@ open class StringCharacteristic(characteristic: BluetoothGattCharacteristic?, uu
     override val tag = StringCharacteristic::class.java.canonicalName as String
     var valueString: String? = null
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         valueString = getNextStringValue(c)
         return valueString != null
     }

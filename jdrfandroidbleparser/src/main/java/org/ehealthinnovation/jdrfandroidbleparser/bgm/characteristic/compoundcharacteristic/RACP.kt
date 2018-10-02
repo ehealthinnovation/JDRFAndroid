@@ -71,7 +71,7 @@ class RACP : BaseCharacteristic, Composable {
     /**
      * Main entry point for parsing a [BluetoothGattCharacteristic]
      */
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParsing = false
         opcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         //Extract operator

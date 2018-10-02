@@ -22,7 +22,7 @@ class CgmMeasurementCharacteristicTest : BaseTest(){
     private val expectedSensorStatusAnnunciation1: EnumSet<SensorStatusAnnunciation> = EnumSet.noneOf(SensorStatusAnnunciation::class.java)
     private val expectedFlags1: EnumSet<Flags> = EnumSet.noneOf(Flags::class.java)
     private val expectedTimeOffset1 = 13330
-    private val expectedSize1 = 7
+    private val expectedSize1 = 6
 
     /**
      * Test Packet 2

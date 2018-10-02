@@ -41,7 +41,7 @@ class CgmSpecificOpsControlPointCharacteristic : BaseCharacteristic, Composable 
 
     var hasCrc: Boolean
 
-    override fun parse(c: BluetoothGattCharacteristic): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
         var errorFreeParsing = false
         opcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         //Extract the operands
