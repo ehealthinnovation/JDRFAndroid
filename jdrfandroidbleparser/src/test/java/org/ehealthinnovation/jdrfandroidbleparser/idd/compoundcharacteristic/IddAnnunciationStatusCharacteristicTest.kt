@@ -73,7 +73,7 @@ class IddAnnunciationStatusCharacteristicTest : BaseTest() {
                 hasCrc = false,
                 hasE2eCounter = false,
                 expectedParsingResult = true,
-                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT),
+                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT, Flags.AUXINFO1_PRESENT),
                 expectedAnnunciationId = 0x1234,
                 expectedAnnunciationType = AnnunciationType.BATTERY_EMPTY,
                 expectedAnnunciationStatusValues = AnnunciationStatusValues.PENDING,
@@ -91,7 +91,7 @@ class IddAnnunciationStatusCharacteristicTest : BaseTest() {
                 hasCrc = false,
                 hasE2eCounter = false,
                 expectedParsingResult = true,
-                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT),
+                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT, Flags.AUXINFO1_PRESENT, Flags.AUXINFO2_PRESENT, Flags.AUXINFO3_PRESENT, Flags.AUXINFO4_PRESENT, Flags.AUXINFO5_PRESENT),
                 expectedAnnunciationId = 0x1234,
                 expectedAnnunciationType = AnnunciationType.BATTERY_EMPTY,
                 expectedAnnunciationStatusValues = AnnunciationStatusValues.PENDING,
@@ -108,7 +108,7 @@ class IddAnnunciationStatusCharacteristicTest : BaseTest() {
                 hasCrc = false,
                 hasE2eCounter = true,
                 expectedParsingResult = true,
-                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT),
+                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT, Flags.AUXINFO1_PRESENT, Flags.AUXINFO2_PRESENT, Flags.AUXINFO3_PRESENT, Flags.AUXINFO4_PRESENT, Flags.AUXINFO5_PRESENT),
                 expectedAnnunciationId = 0x1234,
                 expectedAnnunciationType = AnnunciationType.BATTERY_EMPTY,
                 expectedAnnunciationStatusValues = AnnunciationStatusValues.PENDING,
@@ -125,7 +125,7 @@ class IddAnnunciationStatusCharacteristicTest : BaseTest() {
                 hasCrc = true,
                 hasE2eCounter = true,
                 expectedParsingResult = true,
-                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT),
+                expectedFlags = EnumSet.of(Flags.ANNUNCIATION_PRESENT, Flags.AUXINFO1_PRESENT, Flags.AUXINFO2_PRESENT, Flags.AUXINFO3_PRESENT, Flags.AUXINFO4_PRESENT, Flags.AUXINFO5_PRESENT),
                 expectedAnnunciationId = 0x1234,
                 expectedAnnunciationType = AnnunciationType.BATTERY_EMPTY,
                 expectedAnnunciationStatusValues = AnnunciationStatusValues.PENDING,
@@ -178,6 +178,15 @@ class IddAnnunciationStatusCharacteristicTest : BaseTest() {
         for (testVector in testVectors) {
             System.out.printf("testing vector number ${testVector.key}\n")
             Assert.assertEquals(testVector.value.expectedAuxInfo, IddAnnunciationStatusCharacteristic(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc, testVector.value.hasE2eCounter).auxInfo)
+        }
+    }
+
+    @Test
+    fun testParsingFlags() {
+        System.out.printf("testParsingFlags\n")
+        for (testVector in testVectors) {
+            System.out.printf("testing vector number ${testVector.key}\n")
+            Assert.assertEquals(testVector.value.expectedFlags, IddAnnunciationStatusCharacteristic(mockBTCharacteristic(testVector.value.testPacket), testVector.value.hasCrc, testVector.value.hasE2eCounter).flags)
         }
     }
 
