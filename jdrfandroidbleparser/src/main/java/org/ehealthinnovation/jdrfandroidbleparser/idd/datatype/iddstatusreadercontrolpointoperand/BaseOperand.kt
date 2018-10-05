@@ -19,14 +19,20 @@ import java.util.*
  * @author Harry Qiu
  * @since 0.0.1
  */
-abstract class BaseOperand(val rawData: ByteArray) :Parsable{
+abstract class BaseOperand(val rawData: ByteArray, c: BluetoothGattCharacteristic? = null) :Parsable{
 
-    val tag = BaseOperand::class.java.canonicalName as String
+    open val tag = BaseOperand::class.java.canonicalName as String
 
     private var offset: Int = 0
-    private val helperCharacteristic = BluetoothGattCharacteristic( UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ)
+    private lateinit var helperCharacteristic : BluetoothGattCharacteristic
 
     init {
+        System.out.printf("init block: loading up raw data\n")
+        if(c == null){
+           helperCharacteristic = BluetoothGattCharacteristic( UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ)
+        }else{
+            helperCharacteristic = c
+        }
         helperCharacteristic.value = rawData
     }
 
