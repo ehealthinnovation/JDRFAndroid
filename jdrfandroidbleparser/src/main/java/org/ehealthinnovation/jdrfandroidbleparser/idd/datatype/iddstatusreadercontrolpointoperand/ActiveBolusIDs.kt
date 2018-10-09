@@ -9,7 +9,7 @@ import android.bluetooth.BluetoothGattCharacteristic
  * represent unique identifiers of the currently Active Boluses that have been created by the Server
  * application at the programming of those boluses.
  */
-class ActiveBolusIDs: BaseOperand{
+class ActiveBolusIDs: BaseOperandParser{
 
     override val tag = ActiveBolusIDs::class.java.canonicalName as String
 

@@ -5,12 +5,11 @@ import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
 import org.junit.Assert
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 
-class BaseOperandTest: BaseTest() {
+class BaseOperandParserTest: BaseTest() {
 
-    class TestBaseOperand(data: ByteArray, c: BluetoothGattCharacteristic) : BaseOperand(data, c){
+    class TestBaseOperand(data: ByteArray, c: BluetoothGattCharacteristic) : BaseOperandParser(data, c){
         override fun parse(): Boolean {
             //This is a dummy method for implementing the base Operand
             return true

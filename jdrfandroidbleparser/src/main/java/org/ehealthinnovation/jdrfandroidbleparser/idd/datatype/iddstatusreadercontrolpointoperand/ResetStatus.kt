@@ -7,7 +7,7 @@ import java.util.*
 /**
  * This class parses and holds the result of a reset status operand
  */
-class ResetStatus : BaseOperand{
+class ResetStatus : BaseOperandParser{
 
     override val tag = ResetStatus::class.java.canonicalName as String
 

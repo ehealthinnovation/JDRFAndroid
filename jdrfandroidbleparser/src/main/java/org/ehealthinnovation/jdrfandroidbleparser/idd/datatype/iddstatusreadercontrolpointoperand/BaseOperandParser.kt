@@ -19,9 +19,9 @@ import java.util.*
  * @author Harry Qiu
  * @since 0.0.1
  */
-abstract class BaseOperand(val rawData: ByteArray, c: BluetoothGattCharacteristic? = null) :Parsable{
+abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharacteristic? = null) :Parsable{
 
-    open val tag = BaseOperand::class.java.canonicalName as String
+    open val tag = BaseOperandParser::class.java.canonicalName as String
 
     private var offset: Int = 0
     private lateinit var helperCharacteristic : BluetoothGattCharacteristic

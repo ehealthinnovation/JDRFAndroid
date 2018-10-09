@@ -7,7 +7,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreaderc
 /**
  * This class parses the operand of generic response
  */
-class GenericReponse: BaseOperand{
+class GenericReponse: BaseOperandParser{
     override val tag = GenericReponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
