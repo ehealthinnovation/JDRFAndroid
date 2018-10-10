@@ -10,6 +10,10 @@ import org.junit.Test
 
 class BaseOperandWriterTest: BaseTest() {
     class TestBaseOperand(c: BluetoothGattCharacteristic) : BaseOperandWriter(c){
+        override fun hasValidArguments(): Boolean {
+            return true
+        }
+
         override fun compose(): Boolean {
             //This is a dummy class created for test purpose
             return true

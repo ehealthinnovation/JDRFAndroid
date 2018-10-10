@@ -3,6 +3,20 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreaderc
 import android.bluetooth.BluetoothGattCharacteristic
 import java.util.*
 
+/**
+ * This class implements the interface [Writable].
+ *
+ * It is the base class for operand in the control point. A set of basic operations are provided
+ * for writing an serialized object.
+ *
+ * Subclass must implement the [compose] method, the details of this method varies with each operand.
+ *
+ * This class preserve the state of composing, so [compose] should not be called twice after an object
+ * is created.
+ *
+ * @author Harry Qiu
+ * @since 0.0.1
+ */
 abstract class BaseOperandWriter(c: BluetoothGattCharacteristic? = null): Writable{
 
     open val tag = BaseOperandWriter::class.java.canonicalName as String
@@ -28,6 +42,10 @@ abstract class BaseOperandWriter(c: BluetoothGattCharacteristic? = null): Writab
      */
     abstract fun compose(): Boolean
 
+    /**
+     * Return true if all arguments required to compose a operand is valid
+     */
+    abstract fun hasValidArguments(): Boolean
 
     override fun setIntValue(value: Int, formatType: Int): Int {
         var sizeOfBytesWritten = 0
