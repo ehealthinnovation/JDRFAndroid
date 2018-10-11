@@ -2,6 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreaderc
 
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commandcontrolpoint.BolusValueSelectionValue
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
 
 /**

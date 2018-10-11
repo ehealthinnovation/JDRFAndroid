@@ -186,6 +186,13 @@ abstract class BaseCharacteristic(val uuid: Int) {
             } ?: throw NullPointerException("Format \"$formatType\" at offset \"$offset\" does " +
                     "not relate to valid Float value...")
 
+    protected fun getRawValueAfterOffset(c:BluetoothGattCharacteristic): ByteArray =
+            c.value.let {
+                val toReturn:ByteArray = it.copyOfRange(offset, it.size-1)
+                offset = it.size - 1
+                toReturn
+            }
+
     @Throws(NullPointerException::class)
 
     /**
@@ -223,6 +230,19 @@ abstract class BaseCharacteristic(val uuid: Int) {
             "characteristic is initiated with the composing constructor")
     }
 
+    protected fun putByteArray(data: ByteArray) : Boolean{
+        composingcharacteristic?.run {
+            val result = this.setValue(data)
+            if(result){
+                offset += data.size
+                rawData = this.value ?: ByteArray(0)
+            }
+            return result
+        }?: throw NullPointerException("composingcharacteristic is null, make sure the " +
+            "characteristic is initiated with the composing constructor")
+
+    }
+
     /**
      * Increments the current read index by the appropriate amount for the format type passed in.
      *
@@ -237,6 +257,7 @@ abstract class BaseCharacteristic(val uuid: Int) {
         } ?: Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
         return newIndex
     }
+
 
 
 

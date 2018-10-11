@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
+package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype
 
 import android.bluetooth.BluetoothGattCharacteristic
 import java.lang.NullPointerException
@@ -19,7 +19,7 @@ import java.util.*
  * @author Harry Qiu
  * @since 0.0.1
  */
-abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharacteristic? = null) :Parsable{
+abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharacteristic? = null) : Parsable {
 
     open val tag = BaseOperandParser::class.java.canonicalName as String
 

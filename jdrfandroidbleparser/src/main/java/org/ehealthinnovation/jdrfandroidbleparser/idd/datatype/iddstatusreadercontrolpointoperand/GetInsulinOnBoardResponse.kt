@@ -2,9 +2,10 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreaderc
 
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.GetInsulinOnBoardResponseFlags
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import java.util.*
 
-class GetInsulinOnBoardResponse : BaseOperandParser{
+class GetInsulinOnBoardResponse : BaseOperandParser {
 
     override val tag = GenericReponse::class.java.canonicalName as String
 

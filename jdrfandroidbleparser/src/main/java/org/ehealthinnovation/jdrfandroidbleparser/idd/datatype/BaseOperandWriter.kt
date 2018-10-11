@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
+package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype
 
 import android.bluetooth.BluetoothGattCharacteristic
 import java.util.*
@@ -17,7 +17,7 @@ import java.util.*
  * @author Harry Qiu
  * @since 0.0.1
  */
-abstract class BaseOperandWriter(c: BluetoothGattCharacteristic? = null): Writable{
+abstract class BaseOperandWriter(c: BluetoothGattCharacteristic? = null): Writable {
 
     open val tag = BaseOperandWriter::class.java.canonicalName as String
 

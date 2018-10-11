@@ -2,6 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreaderc
 
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import org.junit.Assert
 import org.junit.Test
 

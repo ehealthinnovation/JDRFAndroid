@@ -3,8 +3,9 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreaderc
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.CounterType
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.CounterValueSelection
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class GetCounterResponse : BaseOperandParser{
+class GetCounterResponse : BaseOperandParser {
 
     override val tag = GetCounterResponse ::class.java.canonicalName as String
 

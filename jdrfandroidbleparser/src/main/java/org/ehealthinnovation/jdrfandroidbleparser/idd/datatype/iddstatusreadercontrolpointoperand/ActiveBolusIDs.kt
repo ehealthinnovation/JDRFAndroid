@@ -1,6 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
 
 import android.bluetooth.BluetoothGattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
 /**
  * This class parses and holds the operand of Get Active Bolus IDs Response
@@ -9,7 +10,7 @@ import android.bluetooth.BluetoothGattCharacteristic
  * represent unique identifiers of the currently Active Boluses that have been created by the Server
  * application at the programming of those boluses.
  */
-class ActiveBolusIDs: BaseOperandParser{
+class ActiveBolusIDs: BaseOperandParser {
 
     override val tag = ActiveBolusIDs::class.java.canonicalName as String
 

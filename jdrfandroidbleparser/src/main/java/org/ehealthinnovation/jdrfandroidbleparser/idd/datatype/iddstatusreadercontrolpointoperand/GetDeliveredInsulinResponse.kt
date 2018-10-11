@@ -1,6 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
 
 import android.bluetooth.BluetoothGattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
 class GetDeliveredInsulinResponse : BaseOperandParser {
 

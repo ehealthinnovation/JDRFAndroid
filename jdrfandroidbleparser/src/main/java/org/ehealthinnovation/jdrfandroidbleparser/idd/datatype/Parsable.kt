@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
+package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype
 
 /**
  * Parsable define the basic sets of operations that a Bluetooth Characteristic parsing required.

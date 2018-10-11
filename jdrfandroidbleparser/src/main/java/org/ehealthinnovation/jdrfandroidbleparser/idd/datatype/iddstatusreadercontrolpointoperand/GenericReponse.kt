@@ -3,11 +3,12 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreaderc
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.Opcode
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.ResponseCode
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
 /**
  * This class parses the operand of generic response
  */
-class GenericReponse: BaseOperandParser{
+class GenericReponse: BaseOperandParser {
     override val tag = GenericReponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)

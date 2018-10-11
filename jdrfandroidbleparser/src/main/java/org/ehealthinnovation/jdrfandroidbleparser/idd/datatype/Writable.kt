@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
+package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype
 
 /**
  * Writable define the basic sets of operations that a Bluetooth Characteristic writing required.

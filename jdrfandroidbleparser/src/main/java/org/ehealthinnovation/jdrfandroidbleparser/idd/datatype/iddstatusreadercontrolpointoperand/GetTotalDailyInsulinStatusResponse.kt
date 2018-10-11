@@ -1,8 +1,9 @@
 package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand
 
 import android.bluetooth.BluetoothGattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class GetTotalDailyInsulinStatusResponse : BaseOperandParser{
+class GetTotalDailyInsulinStatusResponse : BaseOperandParser {
 
     override val tag = GetTotalDailyInsulinStatusResponse ::class.java.canonicalName as String
 
