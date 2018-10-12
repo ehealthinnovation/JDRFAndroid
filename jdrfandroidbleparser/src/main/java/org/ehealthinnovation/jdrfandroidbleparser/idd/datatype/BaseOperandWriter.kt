@@ -77,6 +77,16 @@ abstract class BaseOperandWriter(c: BluetoothGattCharacteristic? = null): Writab
         return sizeOfBytesWritten
     }
 
+     protected fun setByteArray(data: ByteArray) : Int{
+         var sizeOfBytesWritten = 0
+         if(helperCharacteristic.setValue(data)) {
+             rawData = helperCharacteristic.value
+             sizeOfBytesWritten = data.size
+             this.offset += sizeOfBytesWritten
+         }
+         return  sizeOfBytesWritten
+    }
+
     /**
      * Returns the size of a give value type.
      * @param formatType the format whose size to be querried
