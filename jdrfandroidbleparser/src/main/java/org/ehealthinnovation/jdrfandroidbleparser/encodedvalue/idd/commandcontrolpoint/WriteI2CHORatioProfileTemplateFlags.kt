@@ -24,5 +24,14 @@ enum class WriteI2CHORatioProfileTemplateFlags constructor(val bit: Int) {
             }
             return setFlags
         }
+
+        fun composeFlags(flags: EnumSet<WriteI2CHORatioProfileTemplateFlags>) :Int {
+            var output = 0
+            for (flag in flags){
+                output += flag.bit
+            }
+            return output
+        }
+
     }
 }

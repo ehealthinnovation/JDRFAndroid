@@ -24,5 +24,14 @@ enum class SetBolusTemplateFlags constructor(val bit: Int) {
             }
             return setFlags
         }
+
+        fun composeFlags(flags: EnumSet<SetBolusTemplateFlags>) :Int {
+            var output = 0
+            for (flag in flags){
+                output += flag.bit
+            }
+            return output
+        }
+
     }
 }

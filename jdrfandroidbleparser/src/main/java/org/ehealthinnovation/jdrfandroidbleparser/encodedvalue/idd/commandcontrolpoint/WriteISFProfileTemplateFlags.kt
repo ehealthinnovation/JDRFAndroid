@@ -24,5 +24,13 @@ enum class WriteISFProfileTemplateFlags constructor(val bit: Int) {
             }
             return setFlags
         }
+
+        fun composeFlags(flags: EnumSet<WriteISFProfileTemplateFlags>) :Int {
+            var output = 0
+            for (flag in flags){
+                output += flag.bit
+            }
+            return output
+        }
     }
 }

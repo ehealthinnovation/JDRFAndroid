@@ -22,5 +22,15 @@ enum class WriteTargetGlucoseRangeProfileTemplateFlags constructor(val bit: Int)
             }
             return setFlags
         }
+
+        fun composeFlags(flags: EnumSet<WriteTargetGlucoseRangeProfileTemplateFlags>) :Int {
+            var output = 0
+            for (flag in flags){
+                output += flag.bit
+            }
+            return output
+        }
+
+
     }
 }

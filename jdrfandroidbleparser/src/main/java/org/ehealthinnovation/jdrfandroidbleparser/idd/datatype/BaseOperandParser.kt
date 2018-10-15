@@ -67,6 +67,19 @@ abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharact
         } ?: throw NullPointerException("reading next string results in null.")
     }
 
+    fun getByteArray(length: Int): ByteArray {
+        var buffer = helperCharacteristic.value
+        var toReturn: ByteArray
+        buffer?.let {
+            if(it.size < (length + offset)) {
+                throw ArrayIndexOutOfBoundsException("reading byte array beyond buffer length")
+            }
+            toReturn = it.sliceArray(IntRange(offset, offset+length))
+            offset += length
+            return  toReturn
+        } ?: throw NullPointerException("reading byte array returns null")
+    }
+
     /**
      * Returns the size of a give value type.
      * @param formatType the format whose size to be querried
