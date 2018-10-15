@@ -1,6 +1,6 @@
 package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status
 
-enum class TherapyControlState constructor(val key: Int) {
+enum class Float constructor(val key: Int) {
 
 
     /**The operational state is undetermined. */
@@ -16,7 +16,7 @@ enum class TherapyControlState constructor(val key: Int) {
     RUN(0x55);
 
     companion object {
-        private val map = TherapyControlState.values().associateBy(TherapyControlState ::key)
+        private val map = Float.values().associateBy(Float ::key)
         fun fromKey(type: Int) = map[type]
     }
 }

@@ -1,7 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontrolpointoperand
 
 import android.bluetooth.BluetoothGattCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.TherapyControlState
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.Float
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
 class SetTherapyControlState: BaseOperandWriter{
@@ -12,7 +12,7 @@ class SetTherapyControlState: BaseOperandWriter{
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var therapyControlState:TherapyControlState?= null
+    var therapyControlState: Float?= null
 
     override fun hasValidArguments(): Boolean {
        return therapyControlState!=null

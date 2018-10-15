@@ -1,12 +1,10 @@
 package org.ehealthinnovation.jdrfandroidbleparser.idd.compoundcharacteristic
 
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
-import org.ehealthinnovation.jdrfandroidbleparser.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.Flags
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.OperationalState
-import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.TherapyControlState
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.Float
 import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Test
 import java.util.*
 
@@ -15,15 +13,15 @@ class IddStatusCharacteristicTest : BaseTest(){
      * Data class for hosting test vector
      */
     class IddStatusTestVector(
-        val testPacket: ByteArray,
-        val hasCrc: Boolean,
-        val hasE2eCounter: Boolean,
-        val expectedParsingResult: Boolean,
-        val expectedTherapyControlState: TherapyControlState?,
-        val expectedOperationalState: OperationalState?,
-        val expectedReservoirRemainingAmount: Float?,
-        val expectedFlags: EnumSet<Flags>,
-        val expectedE2eCounter: Int?
+            val testPacket: ByteArray,
+            val hasCrc: Boolean,
+            val hasE2eCounter: Boolean,
+            val expectedParsingResult: Boolean,
+            val expectedTherapyControlState: Float?,
+            val expectedOperationalState: OperationalState?,
+            val expectedReservoirRemainingAmount: kotlin.Float?,
+            val expectedFlags: EnumSet<Flags>,
+            val expectedE2eCounter: Int?
     )
 
     val testVectors = mutableMapOf<Int, IddStatusTestVector>()
@@ -40,7 +38,7 @@ class IddStatusCharacteristicTest : BaseTest(){
                 hasCrc = false,
                 hasE2eCounter = false,
                 expectedParsingResult = true,
-                expectedTherapyControlState = TherapyControlState.RUN,
+                expectedTherapyControlState = Float.RUN,
                 expectedOperationalState = OperationalState.READY,
                 expectedReservoirRemainingAmount = 5.2.toFloat(),
                 expectedFlags = EnumSet.of(Flags.RESERVOIR_ATTACHED),
@@ -58,7 +56,7 @@ class IddStatusCharacteristicTest : BaseTest(){
                 hasCrc = false,
                 hasE2eCounter = true,
                 expectedParsingResult = true,
-                expectedTherapyControlState = TherapyControlState.RUN,
+                expectedTherapyControlState = Float.RUN,
                 expectedOperationalState = OperationalState.READY,
                 expectedReservoirRemainingAmount = 5.2.toFloat(),
                 expectedFlags = EnumSet.of(Flags.RESERVOIR_ATTACHED),
@@ -76,7 +74,7 @@ class IddStatusCharacteristicTest : BaseTest(){
                 hasCrc = true,
                 hasE2eCounter = false,
                 expectedParsingResult = true,
-                expectedTherapyControlState = TherapyControlState.RUN,
+                expectedTherapyControlState = Float.RUN,
                 expectedOperationalState = OperationalState.READY,
                 expectedReservoirRemainingAmount = 5.2.toFloat(),
                 expectedFlags = EnumSet.of(Flags.RESERVOIR_ATTACHED),
@@ -94,7 +92,7 @@ class IddStatusCharacteristicTest : BaseTest(){
                 hasCrc = true,
                 hasE2eCounter = true,
                 expectedParsingResult = true,
-                expectedTherapyControlState = TherapyControlState.RUN,
+                expectedTherapyControlState = Float.RUN,
                 expectedOperationalState = OperationalState.READY,
                 expectedReservoirRemainingAmount = 5.2.toFloat(),
                 expectedFlags = EnumSet.of(Flags.RESERVOIR_ATTACHED),
