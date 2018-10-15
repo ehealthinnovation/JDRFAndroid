@@ -23,11 +23,10 @@ import java.util.*
 class RACP : BaseCharacteristic, Composable {
     override val tag: String = RACP::class.java.canonicalName
 
-    constructor(c: BluetoothGattCharacteristic, hasCrc: Boolean = false, isComposing: Boolean = false) :
-            super(c, GattCharacteristic.RECORD_ACCESS_CONTROL_POINT.assigned, hasCrc, isComposing) {
+    constructor(characteristic: BluetoothGattCharacteristic?, hasCrc:Boolean = false, hasE2eCounter : Boolean = false ):super(characteristic, GattCharacteristic.IDD_STATUS_READER_CONTROL_POINT.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter){
         this.hasCrc = hasCrc
+        this.hasE2eCounter = hasE2eCounter
     }
-
 
     /**
      * Op Code specifying the operation
@@ -65,6 +64,12 @@ class RACP : BaseCharacteristic, Composable {
      * Indicate whether the packet requires CRC
      */
     var hasCrc: Boolean
+
+    /**
+     * E2E Counter
+     */
+    var hasE2eCounter: Boolean
+    var e2eCounter: Int? = null
 
     /**
      * Main entry point for parsing a [BluetoothGattCharacteristic]
@@ -113,6 +118,11 @@ class RACP : BaseCharacteristic, Composable {
                 return errorFreeParsing
             }
         }
+
+        if(hasE2eCounter){
+            e2eCounter = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+        }
+
         errorFreeParsing = true
         return errorFreeParsing
 
@@ -193,6 +203,11 @@ class RACP : BaseCharacteristic, Composable {
                     Log.e(tag, "unknown opcode")
                 }
             }
+
+            if(hasE2eCounter){
+                e2eCounter?.let { putIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT8) }
+            }
+
             if(hasCrc){
                 attachCrc()
             }
