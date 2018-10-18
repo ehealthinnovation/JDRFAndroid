@@ -23,7 +23,7 @@ import java.util.*
 class RACP : BaseCharacteristic, Composable {
     override val tag: String = RACP::class.java.canonicalName
 
-    constructor(characteristic: BluetoothGattCharacteristic?, hasCrc:Boolean = false, hasE2eCounter : Boolean = false ):super(characteristic, GattCharacteristic.IDD_STATUS_READER_CONTROL_POINT.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter){
+    constructor(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter: Boolean = false) : super(characteristic, GattCharacteristic.IDD_STATUS_READER_CONTROL_POINT.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter) {
         this.hasCrc = hasCrc
         this.hasE2eCounter = hasE2eCounter
     }
@@ -74,7 +74,7 @@ class RACP : BaseCharacteristic, Composable {
     /**
      * Main entry point for parsing a [BluetoothGattCharacteristic]
      */
-    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter : Boolean): Boolean {
+    override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter: Boolean): Boolean {
         var errorFreeParsing = false
         opcode = Opcode.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         //Extract operator
@@ -119,7 +119,7 @@ class RACP : BaseCharacteristic, Composable {
             }
         }
 
-        if(hasE2eCounter){
+        if (hasE2eCounter) {
             e2eCounter = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
         }
 
@@ -144,7 +144,7 @@ class RACP : BaseCharacteristic, Composable {
 
         filterType = Filter.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
 
-        if (EnumSet.of(Filter.SEQUENCE_NUMBER, Filter.SEQUENCE_NUMBER_FILTERED_BY_REFERENCE_TIME_EVENT, Filter.SEQUENCE_NUMBER_FILTERED_BY_NON_REFERENCE_TIME_EVENT).contains(filterType)){
+        if (EnumSet.of(Filter.SEQUENCE_NUMBER, Filter.SEQUENCE_NUMBER_FILTERED_BY_REFERENCE_TIME_EVENT, Filter.SEQUENCE_NUMBER_FILTERED_BY_NON_REFERENCE_TIME_EVENT).contains(filterType)) {
             when (operator) {
                 Operator.LESS_THAN_OR_EQUAL_TO -> {
                     maximumFilterValueSequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT32)
@@ -204,11 +204,11 @@ class RACP : BaseCharacteristic, Composable {
                 }
             }
 
-            if(hasE2eCounter){
+            if (hasE2eCounter) {
                 e2eCounter?.let { putIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT8) }
             }
 
-            if(hasCrc){
+            if (hasCrc) {
                 attachCrc()
             }
         }
@@ -233,7 +233,7 @@ class RACP : BaseCharacteristic, Composable {
                         when (this) {
                             Filter.SEQUENCE_NUMBER_FILTERED_BY_NON_REFERENCE_TIME_EVENT,
                             Filter.SEQUENCE_NUMBER_FILTERED_BY_REFERENCE_TIME_EVENT,
-                            Filter.SEQUENCE_NUMBER-> {
+                            Filter.SEQUENCE_NUMBER -> {
                                 minimumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT32)
                                 } ?: throw NullPointerException("The minimum value is null")
@@ -251,7 +251,7 @@ class RACP : BaseCharacteristic, Composable {
                         when (this) {
                             Filter.SEQUENCE_NUMBER_FILTERED_BY_NON_REFERENCE_TIME_EVENT,
                             Filter.SEQUENCE_NUMBER_FILTERED_BY_REFERENCE_TIME_EVENT,
-                            Filter.SEQUENCE_NUMBER-> {
+                            Filter.SEQUENCE_NUMBER -> {
                                 maximumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT32)
                                 } ?: throw NullPointerException("The maximum value is null")
@@ -270,7 +270,7 @@ class RACP : BaseCharacteristic, Composable {
 
                             Filter.SEQUENCE_NUMBER_FILTERED_BY_NON_REFERENCE_TIME_EVENT,
                             Filter.SEQUENCE_NUMBER_FILTERED_BY_REFERENCE_TIME_EVENT,
-                            Filter.SEQUENCE_NUMBER-> {
+                            Filter.SEQUENCE_NUMBER -> {
                                 minimumFilterValueSequenceNumber?.run {
                                     putIntValue(this, BluetoothGattCharacteristic.FORMAT_UINT32)
                                 } ?: throw NullPointerException("The minimum value is null")

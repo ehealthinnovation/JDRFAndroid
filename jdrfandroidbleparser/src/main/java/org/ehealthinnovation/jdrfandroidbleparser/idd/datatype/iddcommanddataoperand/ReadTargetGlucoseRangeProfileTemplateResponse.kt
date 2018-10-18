@@ -6,13 +6,13 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commanddata.R
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import java.util.*
 
-class ReadTargetGlucoseRangeProfileTemplateResponse: BaseOperandParser{
+class ReadTargetGlucoseRangeProfileTemplateResponse : BaseOperandParser {
 
-    override val tag =ReadTargetGlucoseRangeProfileTemplateResponse::class.java.canonicalName as String
+    override val tag = ReadTargetGlucoseRangeProfileTemplateResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var flags: EnumSet<ReadTargetGlucoseRangeProfileTemplateResponseFlags>? = null
 

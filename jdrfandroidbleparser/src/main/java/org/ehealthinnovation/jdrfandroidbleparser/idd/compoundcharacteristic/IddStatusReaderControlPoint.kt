@@ -9,22 +9,20 @@ import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddstatusreadercontrolpointoperand.*
 
-class IddStatusReaderControlPoint: BaseCharacteristic, Composable{
+class IddStatusReaderControlPoint : BaseCharacteristic, Composable {
     override val tag: String = IddStatusReaderControlPoint::class.java.canonicalName
 
-    constructor(characteristic: BluetoothGattCharacteristic?, hasCrc:Boolean = false, hasE2eCounter : Boolean = false ):super(characteristic, GattCharacteristic.IDD_STATUS_READER_CONTROL_POINT.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter){
+    constructor(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter: Boolean = false) : super(characteristic, GattCharacteristic.IDD_STATUS_READER_CONTROL_POINT.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter) {
         this.hasCrc = hasCrc
         this.hasE2eCounter = hasE2eCounter
     }
 
-    var hasCrc:Boolean
-    var hasE2eCounter:Boolean
+    var hasCrc: Boolean
+    var hasE2eCounter: Boolean
     var opcode: Opcode? = null
     var operandParsing: BaseOperandParser? = null
     var operandWriter: BaseOperandWriter? = null
-    var e2eCounter:Int? = null
-
-
+    var e2eCounter: Int? = null
 
 
     override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter: Boolean): Boolean {
@@ -34,30 +32,30 @@ class IddStatusReaderControlPoint: BaseCharacteristic, Composable{
             var operandRawData = getRawValueAfterOffset(c)
             //here we do some conditioning for the operand raw data since it may contain e2e-counter
             //or crc
-            if(hasCrc){
-                operandRawData = operandRawData.let { it.copyOf(it.size-2) }
+            if (hasCrc) {
+                operandRawData = operandRawData.let { it.copyOf(it.size - 2) }
             }
 
-            if(hasE2eCounter){
+            if (hasE2eCounter) {
                 operandRawData = operandRawData.let {
                     e2eCounter = it.last().toInt()
-                    it.copyOf(it.size-1)
+                    it.copyOf(it.size - 1)
                 }
             }
 
             //Now decode the operand
-            when(opcode){
-                Opcode.RESPONSE_CODE-> operandParsing = GenericReponse(operandRawData).also {it.apply {errorFreeParsing = parse()}}
-                Opcode.RESET_STATUS-> operandParsing = ResetStatus(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_ACTIVE_BOLUS_IDS_RESPONSE-> operandParsing = ActiveBolusIDs(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_ACTIVE_BOLUS_DELIVERY_RESPONSE-> operandParsing = GetActiveBolusDeliveryResponse(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_ACTIVE_BASAL_RATE_DELIVERY_RESPONSE -> operandParsing = GetActiveBasalRateDeliveryResponse(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_TOTAL_DAILY_INSULIN_STATUS_RESPONSE -> operandParsing = GetTotalDailyInsulinStatusResponse(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_COUNTER_RESPONSE -> operandParsing = GetCounterResponse(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_DELIVERED_INSULIN_RESPONSE -> operandParsing = GetDeliveredInsulinResponse(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                Opcode.GET_INSULIN_ON_BOARD_RESPONSE -> operandParsing = GetInsulinOnBoardResponse(operandRawData).also { it.apply {errorFreeParsing =  parse()} }
-                else ->{
-                   throw IllegalStateException( "Opcode not recognied by the parsing function")
+            when (opcode) {
+                Opcode.RESPONSE_CODE -> operandParsing = GenericReponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.RESET_STATUS -> operandParsing = ResetStatus(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_ACTIVE_BOLUS_IDS_RESPONSE -> operandParsing = ActiveBolusIDs(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_ACTIVE_BOLUS_DELIVERY_RESPONSE -> operandParsing = GetActiveBolusDeliveryResponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_ACTIVE_BASAL_RATE_DELIVERY_RESPONSE -> operandParsing = GetActiveBasalRateDeliveryResponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_TOTAL_DAILY_INSULIN_STATUS_RESPONSE -> operandParsing = GetTotalDailyInsulinStatusResponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_COUNTER_RESPONSE -> operandParsing = GetCounterResponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_DELIVERED_INSULIN_RESPONSE -> operandParsing = GetDeliveredInsulinResponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                Opcode.GET_INSULIN_ON_BOARD_RESPONSE -> operandParsing = GetInsulinOnBoardResponse(operandRawData).also { it.apply { errorFreeParsing = parse() } }
+                else -> {
+                    throw IllegalStateException("Opcode not recognied by the parsing function")
                 }
             }
         }

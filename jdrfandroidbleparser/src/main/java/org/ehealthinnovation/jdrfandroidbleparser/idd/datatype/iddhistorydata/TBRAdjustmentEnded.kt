@@ -19,9 +19,9 @@ class TBRAdjustmentEnded : BaseOperandParser {
     var flags: EnumSet<TBRAdjustmentEndedFlags>? = null
     var lastSetTBRType: TBRType? = null
     var effectiveTBRDuration: Int? = null
-    var tbrEndReason: TBREndReason?=null
-    var lastSetTBRTemplateNumber:Int?= null
-    var annunciationInstanceId: Int?=null
+    var tbrEndReason: TBREndReason? = null
+    var lastSetTBRTemplateNumber: Int? = null
+    var annunciationInstanceId: Int? = null
 
     override fun parse(): Boolean {
         flags = TBRAdjustmentEndedFlags.parseFlags(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
@@ -29,13 +29,13 @@ class TBRAdjustmentEnded : BaseOperandParser {
         effectiveTBRDuration = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
         tbrEndReason = TBREndReason.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
         flags?.let {
-            if (it.contains(TBRAdjustmentEndedFlags.LAST_SET_TBR_TEMPLATE_NUMBER_PRESENT)){
+            if (it.contains(TBRAdjustmentEndedFlags.LAST_SET_TBR_TEMPLATE_NUMBER_PRESENT)) {
                 lastSetTBRTemplateNumber = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8)
             }
-            if (it.contains(TBRAdjustmentEndedFlags.ANNUNCIATION_INSTANCE_ID_PRESENT)){
+            if (it.contains(TBRAdjustmentEndedFlags.ANNUNCIATION_INSTANCE_ID_PRESENT)) {
                 annunciationInstanceId = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
         }
-       return true
+        return true
     }
 }

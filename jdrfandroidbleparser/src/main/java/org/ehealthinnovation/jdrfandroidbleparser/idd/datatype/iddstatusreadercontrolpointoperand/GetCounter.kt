@@ -5,11 +5,11 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreaderc
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.CounterValueSelection
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class GetCounter: BaseOperandWriter {
+class GetCounter : BaseOperandWriter {
 
     override val tag = GetCounter::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
@@ -17,7 +17,7 @@ class GetCounter: BaseOperandWriter {
     var counterValueSelection: CounterValueSelection? = null
 
     override fun compose(): Boolean {
-        if(!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
         counterType?.let { setIntValue(it.key, BluetoothGattCharacteristic.FORMAT_UINT8) }
@@ -26,7 +26,7 @@ class GetCounter: BaseOperandWriter {
     }
 
     override fun hasValidArguments(): Boolean {
-        return !(counterType==null || counterValueSelection == null)
+        return !(counterType == null || counterValueSelection == null)
     }
 
 }

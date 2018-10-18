@@ -3,9 +3,9 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class ActivateProfileTemplatesResponse :BaseOperandParser{
+class ActivateProfileTemplatesResponse : BaseOperandParser {
 
-    override val tag =ActivateProfileTemplatesResponse::class.java.canonicalName as String
+    override val tag = ActivateProfileTemplatesResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 

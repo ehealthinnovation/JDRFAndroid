@@ -6,23 +6,23 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.historyevent.
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import org.ehealthinnovation.jdrfandroidbleparser.utility.BluetoothDateTime
 
-class ReferenceTime: BaseOperandParser{
+class ReferenceTime : BaseOperandParser {
 
-    override val tag =ReferenceTime::class.java.canonicalName as String
+    override val tag = ReferenceTime::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var recordingReason: RecordingReason?= null
-    var dateTime: BluetoothDateTime?= null
+    var recordingReason: RecordingReason? = null
+    var dateTime: BluetoothDateTime? = null
     var timeZone: Int? = null
     var dstOffset: DstOffset? = null
 
     override fun parse(): Boolean {
         recordingReason = RecordingReason.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
         dateTime = BluetoothDateTime(
-               _year = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16),
+                _year = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16),
                 _month = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8),
                 _day = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8),
                 _hour = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8),

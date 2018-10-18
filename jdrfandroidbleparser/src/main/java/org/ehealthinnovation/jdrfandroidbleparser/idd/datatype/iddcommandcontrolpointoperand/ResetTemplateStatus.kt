@@ -3,21 +3,21 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class ResetTemplateStatus: BaseOperandWriter{
+class ResetTemplateStatus : BaseOperandWriter {
 
-    override val tag =ResetTemplateStatus::class.java.canonicalName as String
+    override val tag = ResetTemplateStatus::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var numberOfTemplateToReset:Int?= null
-    var templateNumber:MutableList<Int> = mutableListOf()
+    var numberOfTemplateToReset: Int? = null
+    var templateNumber: MutableList<Int> = mutableListOf()
 
     override fun compose(): Boolean {
         numberOfTemplateToReset?.let {
             setIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT8)
-            for (index in 0 until it){
+            for (index in 0 until it) {
                 setIntValue(templateNumber!![index], BluetoothGattCharacteristic.FORMAT_UINT8)
             }
         }
@@ -25,11 +25,11 @@ class ResetTemplateStatus: BaseOperandWriter{
     }
 
     override fun hasValidArguments(): Boolean {
-        if (numberOfTemplateToReset == null || templateNumber == null){
+        if (numberOfTemplateToReset == null || templateNumber == null) {
             return false
         }
 
-        if (templateNumber.size != numberOfTemplateToReset){
+        if (templateNumber.size != numberOfTemplateToReset) {
             return false
         }
 

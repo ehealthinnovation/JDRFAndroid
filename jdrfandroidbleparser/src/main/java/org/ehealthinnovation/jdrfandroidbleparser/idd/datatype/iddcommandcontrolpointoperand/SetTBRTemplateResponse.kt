@@ -3,13 +3,13 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class SetTBRTemplateResponse : BaseOperandParser{
+class SetTBRTemplateResponse : BaseOperandParser {
 
-    override val tag = SetTBRTemplateResponse ::class.java.canonicalName as String
+    override val tag = SetTBRTemplateResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var tbrTemplateNumber: Int? = null
 

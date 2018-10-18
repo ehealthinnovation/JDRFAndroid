@@ -5,15 +5,15 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commandcontro
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commandcontrolpoint.ResponseCode
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class GenericResponse:BaseOperandParser {
+class GenericResponse : BaseOperandParser {
 
     override val tag = GenericResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var requestOpCode: Opcode?= null
+    var requestOpCode: Opcode? = null
     var responseCodeValue: ResponseCode? = null
 
     override fun parse(): Boolean {

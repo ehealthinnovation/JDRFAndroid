@@ -24,7 +24,7 @@ class PrimingDone : BaseOperandParser {
         deliveredAmount = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         reasonOfTermination = ReasonOfTerminationValue.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
         flags?.let {
-            if (it.contains(PrimingDoneFlags.ANNUNCIATION_INSTANCE_ID_PRESENT)){
+            if (it.contains(PrimingDoneFlags.ANNUNCIATION_INSTANCE_ID_PRESENT)) {
                 annunciationInstanceID = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
         }

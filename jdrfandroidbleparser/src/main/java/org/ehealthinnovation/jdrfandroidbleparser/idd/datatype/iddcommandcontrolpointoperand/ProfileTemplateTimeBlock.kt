@@ -11,19 +11,19 @@ class ProfileTemplateTimeBlock : BaseOperandWriter {
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var duration:Int? = null
+    var duration: Int? = null
     var rate: Float? = null
 
     override fun compose(): Boolean {
-        if(!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
         setIntValue(duration!!, BluetoothGattCharacteristic.FORMAT_UINT16)
         //todo The spec does not state which exponent to use
-        setFloatValue((rate!!*10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+        setFloatValue((rate!! * 10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT)
         return true
     }
 
-    override fun hasValidArguments(): Boolean = (duration!=null && rate!=null)
+    override fun hasValidArguments(): Boolean = (duration != null && rate != null)
 
 }

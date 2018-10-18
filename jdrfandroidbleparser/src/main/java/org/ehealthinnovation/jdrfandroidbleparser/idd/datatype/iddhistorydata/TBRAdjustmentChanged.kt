@@ -31,10 +31,10 @@ class TBRAdjustmentChanged : BaseOperandParser {
         tbrDurationProgrammed = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
         elapsedTBRDurationSinceLastChangeOrStart = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
         flags?.let {
-            if (it.contains(TBRAdjustmentStartedFlags.TBR_TEMPLATE_NUMBER_PRESENT)){
+            if (it.contains(TBRAdjustmentStartedFlags.TBR_TEMPLATE_NUMBER_PRESENT)) {
                 tbrTemplateNumber = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8)
             }
         }
-       return true
+        return true
     }
 }

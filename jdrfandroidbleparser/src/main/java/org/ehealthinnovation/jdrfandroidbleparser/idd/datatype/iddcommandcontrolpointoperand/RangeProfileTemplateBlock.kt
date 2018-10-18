@@ -11,21 +11,21 @@ class RangeProfileTemplateBlock : BaseOperandWriter {
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var duration:Int? = null
+    var duration: Int? = null
     var lowerLimit: Float? = null
     var upperLimit: Float? = null
 
     override fun compose(): Boolean {
-        if(!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
         setIntValue(duration!!, BluetoothGattCharacteristic.FORMAT_UINT16)
         //todo The spec does not state which exponent to use
-        lowerLimit?.let { setFloatValue((it!!*10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT)}
-        upperLimit?.let { setFloatValue((it!!*10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT)}
+        lowerLimit?.let { setFloatValue((it!! * 10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT) }
+        upperLimit?.let { setFloatValue((it!! * 10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT) }
         return true
     }
 
-    override fun hasValidArguments(): Boolean = (duration!=null && lowerLimit!=null && upperLimit!=null)
+    override fun hasValidArguments(): Boolean = (duration != null && lowerLimit != null && upperLimit != null)
 
 }

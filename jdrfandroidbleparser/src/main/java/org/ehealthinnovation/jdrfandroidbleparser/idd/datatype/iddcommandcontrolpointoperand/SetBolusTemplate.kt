@@ -7,15 +7,15 @@ import java.util.*
 
 class SetBolusTemplate : BaseOperandWriter {
 
-    override val tag = SetBolusTemplate ::class.java.canonicalName as String
+    override val tag = SetBolusTemplate::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
     var bolusTemplateNumber: Int? = null
-    var flags: EnumSet<SetBolusTemplateFlags>?=null
-    var bolus: Bolus? =null
+    var flags: EnumSet<SetBolusTemplateFlags>? = null
+    var bolus: Bolus? = null
     var bolusDelayTime: Int? = null
 
     override fun compose(): Boolean {
@@ -42,13 +42,13 @@ class SetBolusTemplate : BaseOperandWriter {
     }
 
     override fun hasValidArguments(): Boolean {
-        if(bolusTemplateNumber == null || flags==null || bolus == null){
+        if (bolusTemplateNumber == null || flags == null || bolus == null) {
             return false
         }
 
         flags?.let {
-            if (it.contains(SetBolusTemplateFlags.BOLUS_DELAY_TIME_PRESENT)){
-                if (bolusDelayTime==null){
+            if (it.contains(SetBolusTemplateFlags.BOLUS_DELAY_TIME_PRESENT)) {
+                if (bolusDelayTime == null) {
                     return false
                 }
             }

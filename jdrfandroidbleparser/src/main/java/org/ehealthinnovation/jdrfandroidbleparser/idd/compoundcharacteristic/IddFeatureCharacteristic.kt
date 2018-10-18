@@ -7,7 +7,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.feature.Flags
 import java.util.*
 
 class IddFeatureCharacteristic(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter: Boolean) :
-        BaseCharacteristic(characteristic, GattCharacteristic.IDD_FEATURES.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter){
+        BaseCharacteristic(characteristic, GattCharacteristic.IDD_FEATURES.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter) {
     override val tag = IddFeatureCharacteristic::class.java.canonicalName as String
 
     /**
@@ -38,7 +38,7 @@ class IddFeatureCharacteristic(characteristic: BluetoothGattCharacteristic?, has
 
     override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter: Boolean): Boolean {
         var errorFreeParsing = false
-        var flagValue : Int = 0
+        var flagValue: Int = 0
         e2eCrc = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
         e2eCounter = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
         insulinConcentration = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
@@ -47,14 +47,14 @@ class IddFeatureCharacteristic(characteristic: BluetoothGattCharacteristic?, has
         flagValue += getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) shl 8
         flagValue += getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) shl 16
 
-         Flags.parseFlags(flagValue).let {
-             flags = it
-            if(it.contains(Flags.E2E_PROTECTION_SUPPORTED)){
-                if(!testCrc(rawData)){
+        Flags.parseFlags(flagValue).let {
+            flags = it
+            if (it.contains(Flags.E2E_PROTECTION_SUPPORTED)) {
+                if (!testCrc(rawData)) {
                     throw Exception("CRC Fails")
                 }
-            }else{
-                if(e2eCounter != 0 || e2eCrc != 0xFFFF){
+            } else {
+                if (e2eCounter != 0 || e2eCrc != 0xFFFF) {
                     return errorFreeParsing
                 }
             }

@@ -4,16 +4,16 @@ import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.statusreadercontrolpoint.TBRType
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class GetTBRTemplateResponse: BaseOperandParser{
+class GetTBRTemplateResponse : BaseOperandParser {
 
     override val tag = GetTBRTemplateResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var tbrTemplateNumber : Int? = null
-    var tbrType : TBRType? = null
+    var tbrTemplateNumber: Int? = null
+    var tbrType: TBRType? = null
     var tbrAdjustmentValue: Float? = null
     var tbrDuration: Int? = null
 

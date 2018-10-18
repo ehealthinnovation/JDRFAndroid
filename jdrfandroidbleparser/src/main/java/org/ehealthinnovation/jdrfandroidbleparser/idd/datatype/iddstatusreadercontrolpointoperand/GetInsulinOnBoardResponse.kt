@@ -11,17 +11,17 @@ class GetInsulinOnBoardResponse : BaseOperandParser {
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var flags : EnumSet<GetInsulinOnBoardResponseFlags>? = null
-    var insulinOnBoard : Float? = null
+    var flags: EnumSet<GetInsulinOnBoardResponseFlags>? = null
+    var insulinOnBoard: Float? = null
     var remainingDuration: Int? = null
 
     override fun parse(): Boolean {
         flags = GetInsulinOnBoardResponseFlags.parseFlags(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
         insulinOnBoard = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
-        flags?.let {flags->
-            if(flags.contains(GetInsulinOnBoardResponseFlags.REMAINING_DURATION_PRESENT)){
+        flags?.let { flags ->
+            if (flags.contains(GetInsulinOnBoardResponseFlags.REMAINING_DURATION_PRESENT)) {
                 remainingDuration = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
         }

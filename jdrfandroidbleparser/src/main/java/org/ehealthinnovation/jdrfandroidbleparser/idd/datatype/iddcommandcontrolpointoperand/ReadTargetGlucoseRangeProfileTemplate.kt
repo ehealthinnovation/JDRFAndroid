@@ -3,18 +3,18 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class ReadTargetGlucoseRangeProfileTemplate:BaseOperandWriter {
+class ReadTargetGlucoseRangeProfileTemplate : BaseOperandWriter {
 
     override val tag = ReadTargetGlucoseRangeProfileTemplate::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var targetGlucoseRangeProfileTemplateNumber:Int?= null
+    var targetGlucoseRangeProfileTemplateNumber: Int? = null
 
     override fun compose(): Boolean {
-        if (!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
 
@@ -23,5 +23,5 @@ class ReadTargetGlucoseRangeProfileTemplate:BaseOperandWriter {
 
     }
 
-    override fun hasValidArguments(): Boolean = (targetGlucoseRangeProfileTemplateNumber !=null)
+    override fun hasValidArguments(): Boolean = (targetGlucoseRangeProfileTemplateNumber != null)
 }

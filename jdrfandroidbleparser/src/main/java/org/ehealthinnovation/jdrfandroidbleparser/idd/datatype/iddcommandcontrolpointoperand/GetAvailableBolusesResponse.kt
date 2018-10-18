@@ -5,13 +5,13 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commandcontro
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import java.util.*
 
-class GetAvailableBolusesResponse: BaseOperandParser {
+class GetAvailableBolusesResponse : BaseOperandParser {
 
-    override val tag =GetAvailableBolusesResponse::class.java.canonicalName as String
+    override val tag = GetAvailableBolusesResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var flags: EnumSet<GetAvailableBolusesResponseFlags>? = null
 

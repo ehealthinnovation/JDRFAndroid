@@ -12,19 +12,19 @@ interface Parsable {
      * @param formatType the bluetooth data type of the integer to be extracted.
      * @return the extracted integer
      */
-    fun getNextInt(formatType: Int) : Int
+    fun getNextInt(formatType: Int): Int
 
     /**
      * Get the next floating point number from the data buffer.
      * @param formatType the Bluetooth data type of the floating point value to be extracted.
      * @return the extracted floating point value
      */
-    fun getNextFloat(formatType: Int) : Float
+    fun getNextFloat(formatType: Int): Float
 
     /**
      * Get the next string from the data buffer.
      * @param length the length of the string to be extract
      * @return the extracted string
      */
-    fun getNextString(length: Int) : String
+    fun getNextString(length: Int): String
 }

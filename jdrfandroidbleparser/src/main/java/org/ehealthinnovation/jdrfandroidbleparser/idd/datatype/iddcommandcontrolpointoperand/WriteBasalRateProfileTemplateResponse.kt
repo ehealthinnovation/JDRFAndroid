@@ -6,16 +6,16 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commandcontro
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import java.util.*
 
-class WriteBasalRateProfileTemplateResponse: BaseOperandParser {
+class WriteBasalRateProfileTemplateResponse : BaseOperandParser {
 
     override val tag = WriteBasalRateProfileTemplateResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var flags: EnumSet<WriteBasalRateProfileTemplateResponseFlags>? = null
-    var basalRateProfileTemplate :Int? = null
+    var basalRateProfileTemplate: Int? = null
     var firstTimeBlockNumberIndex: Int? = null
 
     override fun parse(): Boolean {

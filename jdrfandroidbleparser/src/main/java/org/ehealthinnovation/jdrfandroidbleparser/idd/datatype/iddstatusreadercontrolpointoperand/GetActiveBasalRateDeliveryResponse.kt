@@ -8,12 +8,12 @@ import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import java.util.*
 
 
-class GetActiveBasalRateDeliveryResponse: BaseOperandParser {
-      override val tag = GetActiveBasalRateDeliveryResponse::class.java.canonicalName as String
+class GetActiveBasalRateDeliveryResponse : BaseOperandParser {
+    override val tag = GetActiveBasalRateDeliveryResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic): super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var flags: EnumSet<GetActiveBasalRateDeliveryResponseFlags>? = null
     var activeBasalRateProfileTemplateNumber: Int? = null
@@ -29,17 +29,17 @@ class GetActiveBasalRateDeliveryResponse: BaseOperandParser {
         flags = GetActiveBasalRateDeliveryResponseFlags.parseFlags(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
         activeBasalRateProfileTemplateNumber = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8)
         activeBasalRateCurrentConfigValue = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
-        flags?.let { flags->
-           if(flags.contains(GetActiveBasalRateDeliveryResponseFlags.TBR_PRESENT)){
-               tbrType = TBRType.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
-               tbrAdjustmentValue = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
-               tbrDurationProgrammed = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
-               tbrDurationRemaining = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
-           }
-            if(flags.contains(GetActiveBasalRateDeliveryResponseFlags.TBR_TEMPLATE_NUMBER_PRESENT)){
+        flags?.let { flags ->
+            if (flags.contains(GetActiveBasalRateDeliveryResponseFlags.TBR_PRESENT)) {
+                tbrType = TBRType.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
+                tbrAdjustmentValue = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                tbrDurationProgrammed = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
+                tbrDurationRemaining = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
+            }
+            if (flags.contains(GetActiveBasalRateDeliveryResponseFlags.TBR_TEMPLATE_NUMBER_PRESENT)) {
                 tbrTemplateNumber = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8)
             }
-            if(flags.contains(GetActiveBasalRateDeliveryResponseFlags.BASAL_DELIVERY_CONTEXT_PRESENT)){
+            if (flags.contains(GetActiveBasalRateDeliveryResponseFlags.BASAL_DELIVERY_CONTEXT_PRESENT)) {
                 basalDeliveryContext = BasalDeliveryContext.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
             }
         }

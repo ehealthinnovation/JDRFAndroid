@@ -70,23 +70,23 @@ class IddAnnunciationStatusCharacteristic(characteristic: BluetoothGattCharacter
                 annunciationStatus = AnnunciationStatusValues.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
 
                 if (flags.contains(Flags.AUXINFO1_PRESENT)) {
-                    auxInfo?.let { it.add(0, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))}
+                    auxInfo?.let { it.add(0, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)) }
                 }
 
                 if (flags.contains(Flags.AUXINFO2_PRESENT)) {
-                    auxInfo?.let { it.add(1, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))}
+                    auxInfo?.let { it.add(1, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)) }
                 }
 
                 if (flags.contains(Flags.AUXINFO3_PRESENT)) {
-                    auxInfo?.let { it.add(2, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))}
+                    auxInfo?.let { it.add(2, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)) }
                 }
 
                 if (flags.contains(Flags.AUXINFO4_PRESENT)) {
-                    auxInfo?.let { it.add(3, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))}
+                    auxInfo?.let { it.add(3, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)) }
                 }
 
                 if (flags.contains(Flags.AUXINFO5_PRESENT)) {
-                    auxInfo?.let { it.add(4, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))}
+                    auxInfo?.let { it.add(4, getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)) }
                 }
 
                 if (hasE2eCounter) {

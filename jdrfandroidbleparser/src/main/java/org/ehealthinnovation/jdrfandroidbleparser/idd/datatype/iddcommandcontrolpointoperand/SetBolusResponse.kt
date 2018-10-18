@@ -3,13 +3,13 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
-class SetBolusResponse:BaseOperandParser {
+class SetBolusResponse : BaseOperandParser {
 
     override val tag = SetBolusResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var bolusId: Int? = null
 

@@ -7,16 +7,16 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.historyevent.
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import org.ehealthinnovation.jdrfandroidbleparser.utility.BluetoothDateTime
 
-class ProfileTemplateActivated: BaseOperandParser{
+class ProfileTemplateActivated : BaseOperandParser {
 
-    override val tag =ProfileTemplateActivated::class.java.canonicalName as String
+    override val tag = ProfileTemplateActivated::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var profileTemplateType: ProfileTemplateTypeValue?= null
-    var oldProfileTemplateNumber: Int?= null
+    var profileTemplateType: ProfileTemplateTypeValue? = null
+    var oldProfileTemplateNumber: Int? = null
     var newProfileTemplateNumber: Int? = null
 
     override fun parse(): Boolean {

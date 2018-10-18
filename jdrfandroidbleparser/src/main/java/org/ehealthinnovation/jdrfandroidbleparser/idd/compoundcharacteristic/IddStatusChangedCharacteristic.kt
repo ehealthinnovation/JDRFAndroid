@@ -15,7 +15,7 @@ depending on the specific implementation, the actual delivery may be distributed
 points in time within that block to provide a continuous basal insulin flow.
 The Server shall retain the status of a bit of the Flags field until its value is reset by the Collector
  */
-class IddStatusChangedCharacteristic(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter : Boolean) : BaseCharacteristic(characteristic, GattCharacteristic.IDD_STATUS_CHANGED.assigned, hasCrc, hasE2eCounter = hasE2eCounter){
+class IddStatusChangedCharacteristic(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter: Boolean) : BaseCharacteristic(characteristic, GattCharacteristic.IDD_STATUS_CHANGED.assigned, hasCrc, hasE2eCounter = hasE2eCounter) {
     override val tag = IddStatusChangedCharacteristic::class.java.canonicalName as String
 
     /**
@@ -37,14 +37,14 @@ class IddStatusChangedCharacteristic(characteristic: BluetoothGattCharacteristic
 
     override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter: Boolean): Boolean {
         var errorFreeParse = false
-        var flagValue : Int? = 0
+        var flagValue: Int? = 0
         flagValue = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
         flagValue?.let {
             flag = Flags.parseFlags(it)
-            if(hasE2eCounter == true){
+            if (hasE2eCounter == true) {
                 e2eCounter = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
             }
-            errorFreeParse =true
+            errorFreeParse = true
         }
         return errorFreeParse
     }

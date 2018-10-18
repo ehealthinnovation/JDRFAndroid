@@ -8,12 +8,12 @@ import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 /**
  * This class parses the operand of generic response
  */
-class GenericReponse: BaseOperandParser {
+class GenericReponse : BaseOperandParser {
     override val tag = GenericReponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     /**
      *  The request opcode
@@ -26,7 +26,7 @@ class GenericReponse: BaseOperandParser {
 
     override fun parse(): Boolean {
         var errorFreeparse = false
-        opcode =  Opcode.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16))
+        opcode = Opcode.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16))
         responseCode = ResponseCode.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
         //If the getNextInt returns a value, meaning error free parse is true
         errorFreeparse = true

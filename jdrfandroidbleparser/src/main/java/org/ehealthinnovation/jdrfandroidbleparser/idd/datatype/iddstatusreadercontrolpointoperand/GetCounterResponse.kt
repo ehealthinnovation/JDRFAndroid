@@ -7,11 +7,11 @@ import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 
 class GetCounterResponse : BaseOperandParser {
 
-    override val tag = GetCounterResponse ::class.java.canonicalName as String
+    override val tag = GetCounterResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var counterType: CounterType? = null
     var counterValueSelection: CounterValueSelection? = null

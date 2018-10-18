@@ -3,18 +3,18 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class ReadISFProfileTemplate:BaseOperandWriter {
+class ReadISFProfileTemplate : BaseOperandWriter {
 
     override val tag = ReadISFProfileTemplate::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var isfProfileTemplateNumber:Int?= null
+    var isfProfileTemplateNumber: Int? = null
 
     override fun compose(): Boolean {
-        if (!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
 
@@ -23,5 +23,5 @@ class ReadISFProfileTemplate:BaseOperandWriter {
 
     }
 
-    override fun hasValidArguments(): Boolean = (isfProfileTemplateNumber!=null)
+    override fun hasValidArguments(): Boolean = (isfProfileTemplateNumber != null)
 }

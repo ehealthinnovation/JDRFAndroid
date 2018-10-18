@@ -13,7 +13,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
  */
 class GetActiveBolusDelivery : BaseOperandWriter {
 
-    override val tag = GetActiveBolusDelivery ::class.java.canonicalName as String
+    override val tag = GetActiveBolusDelivery::class.java.canonicalName as String
 
     /**
      * The Bolus ID field represents a unique identifier as a uint16 data type created by the
@@ -26,18 +26,18 @@ class GetActiveBolusDelivery : BaseOperandWriter {
      */
     var bolusValueSelection: BolusValueSelectionValue? = null
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
     override fun compose(): Boolean {
         var errorFreeComposing = false
 
-        if (!hasValidArguments()){
+        if (!hasValidArguments()) {
             return errorFreeComposing
-       }
+        }
 
-        bolusId?.let {bolusId->
+        bolusId?.let { bolusId ->
             setIntValue(bolusId, BluetoothGattCharacteristic.FORMAT_UINT16)
         }
 

@@ -20,7 +20,7 @@ class GetActiveBolusDeliveryResponse : BaseOperandParser {
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic): super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var flags: EnumSet<GetActiveBolusDeliveryResponseFlags>? = null
     var bolusId: Int? = null
@@ -39,19 +39,19 @@ class GetActiveBolusDeliveryResponse : BaseOperandParser {
         bolusFastAmount = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         bolusExtendedAmount = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         bolusDuration = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
-        flags?.let { flags->
-           if (flags.contains(GetActiveBolusDeliveryResponseFlags.BOLUS_DELAY_TIME_PRESENT)){
-               bolusDelayTime = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
-           }
-
-            if(flags.contains(GetActiveBolusDeliveryResponseFlags.BOLUS_TEMPLATE_NUMBER_PRESENT)){
-               bolusTemplateNumber = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8)
+        flags?.let { flags ->
+            if (flags.contains(GetActiveBolusDeliveryResponseFlags.BOLUS_DELAY_TIME_PRESENT)) {
+                bolusDelayTime = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
 
-            if(flags.contains(GetActiveBolusDeliveryResponseFlags.BOLUS_ACTIVATION_TYPE_PRESENT)){
+            if (flags.contains(GetActiveBolusDeliveryResponseFlags.BOLUS_TEMPLATE_NUMBER_PRESENT)) {
+                bolusTemplateNumber = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8)
+            }
+
+            if (flags.contains(GetActiveBolusDeliveryResponseFlags.BOLUS_ACTIVATION_TYPE_PRESENT)) {
                 bolusActivationType = BolusActivationType.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
             }
-           }
+        }
         return true
     }
 }

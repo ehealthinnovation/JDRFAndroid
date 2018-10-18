@@ -3,21 +3,21 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class ActivateProfileTemplates:BaseOperandWriter {
+class ActivateProfileTemplates : BaseOperandWriter {
 
-    override val tag =ActivateProfileTemplates::class.java.canonicalName as String
+    override val tag = ActivateProfileTemplates::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var numberOfTemplateToActivate:Int?= null
-    var profileTemplateNumber:MutableList<Int> = mutableListOf()
+    var numberOfTemplateToActivate: Int? = null
+    var profileTemplateNumber: MutableList<Int> = mutableListOf()
 
     override fun compose(): Boolean {
         numberOfTemplateToActivate?.let {
             setIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT8)
-            for (index in 0 until it){
+            for (index in 0 until it) {
                 setIntValue(profileTemplateNumber!![index], BluetoothGattCharacteristic.FORMAT_UINT8)
             }
         }
@@ -25,11 +25,11 @@ class ActivateProfileTemplates:BaseOperandWriter {
     }
 
     override fun hasValidArguments(): Boolean {
-        if (numberOfTemplateToActivate == null || profileTemplateNumber == null){
+        if (numberOfTemplateToActivate == null || profileTemplateNumber == null) {
             return false
         }
 
-        if (profileTemplateNumber.size != numberOfTemplateToActivate){
+        if (profileTemplateNumber.size != numberOfTemplateToActivate) {
             return false
         }
 

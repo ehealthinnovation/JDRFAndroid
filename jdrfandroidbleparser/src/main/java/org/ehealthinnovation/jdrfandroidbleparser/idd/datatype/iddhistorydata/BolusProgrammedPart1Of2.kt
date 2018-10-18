@@ -16,17 +16,17 @@ class BolusProgrammedPart1Of2 : BaseOperandParser {
     constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var bolusId: Int? = null
-    var programmedBolus: BolusParser?= null
+    var programmedBolus: BolusParser? = null
 
     override fun parse(): Boolean {
         bolusId = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
         programmedBolus = BolusParser(getByteArray(7)).let {
-            if(it.parse()){
+            if (it.parse()) {
                 it
-            }else{
+            } else {
                 return false
             }
         }
-       return true
+        return true
     }
 }

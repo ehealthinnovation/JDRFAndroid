@@ -10,16 +10,16 @@ import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
  * represent unique identifiers of the currently Active Boluses that have been created by the Server
  * application at the programming of those boluses.
  */
-class ActiveBolusIDs: BaseOperandParser {
+class ActiveBolusIDs : BaseOperandParser {
 
     override val tag = ActiveBolusIDs::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic): super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var numberOfActiveBoluses: Int? = null
-    var bolusIDs: MutableList<Int> =  ArrayList<Int>()
+    var bolusIDs: MutableList<Int> = ArrayList<Int>()
 
     override fun parse(): Boolean {
         var errorFreeParsing = false

@@ -24,13 +24,13 @@ abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharact
     open val tag = BaseOperandParser::class.java.canonicalName as String
 
     private var offset: Int = 0
-    private lateinit var helperCharacteristic : BluetoothGattCharacteristic
+    private lateinit var helperCharacteristic: BluetoothGattCharacteristic
 
     init {
         System.out.printf("init block: loading up raw data\n")
-        if(c == null){
-           helperCharacteristic = BluetoothGattCharacteristic( UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ)
-        }else{
+        if (c == null) {
+            helperCharacteristic = BluetoothGattCharacteristic(UUID.randomUUID(), BluetoothGattCharacteristic.PROPERTY_READ, BluetoothGattCharacteristic.PERMISSION_READ)
+        } else {
             helperCharacteristic = c
         }
         helperCharacteristic.value = rawData
@@ -71,12 +71,12 @@ abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharact
         var buffer = helperCharacteristic.value
         var toReturn: ByteArray
         buffer?.let {
-            if(it.size < (length + offset)) {
+            if (it.size < (length + offset)) {
                 throw ArrayIndexOutOfBoundsException("reading byte array beyond buffer length")
             }
-            toReturn = it.sliceArray(IntRange(offset, offset+length))
+            toReturn = it.sliceArray(IntRange(offset, offset + length))
             offset += length
-            return  toReturn
+            return toReturn
         } ?: throw NullPointerException("reading byte array returns null")
     }
 
@@ -85,7 +85,7 @@ abstract class BaseOperandParser(val rawData: ByteArray, c: BluetoothGattCharact
      * @param formatType the format whose size to be querried
      * @return The size of the format type
      */
-    fun getTypeLen(formatType: Int):Int {
+    fun getTypeLen(formatType: Int): Int {
         return formatType and 0x0F
     }
 }

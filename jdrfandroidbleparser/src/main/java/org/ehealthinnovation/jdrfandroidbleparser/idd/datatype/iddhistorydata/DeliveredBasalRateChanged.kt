@@ -27,7 +27,7 @@ class DeliveredBasalRateChanged : BaseOperandParser {
         oldBasalRateValue = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         newBasalRateValue = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         flags?.let {
-            if (it.contains(DeliveredBasalRateChangedFlags.BASAL_DELIVERY_CONTEXT_PRESENT)){
+            if (it.contains(DeliveredBasalRateChangedFlags.BASAL_DELIVERY_CONTEXT_PRESENT)) {
                 basalDeliveryContext = BasalDeliveryContext.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
             }
         }

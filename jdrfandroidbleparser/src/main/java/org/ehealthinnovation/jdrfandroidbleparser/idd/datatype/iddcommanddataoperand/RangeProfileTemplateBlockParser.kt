@@ -10,9 +10,9 @@ class RangeProfileTemplateBlockParser : BaseOperandParser {
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var duration:Int? = null
+    var duration: Int? = null
     var lowerLimit: Float? = null
     var upperLimit: Float? = null
 

@@ -3,18 +3,18 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class CancelBolus: BaseOperandWriter {
+class CancelBolus : BaseOperandWriter {
 
     override val tag = CancelBolus::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
     var bolusId: Int? = null
 
     override fun compose(): Boolean {
-        if (!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
         bolusId?.let { setIntValue(it, BluetoothGattCharacteristic.FORMAT_UINT16) }

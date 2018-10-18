@@ -3,18 +3,18 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class GetBolusTemplate:BaseOperandWriter {
+class GetBolusTemplate : BaseOperandWriter {
 
     override val tag = GetBolusTemplate::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var bolusTemplateNumber:Int?= null
+    var bolusTemplateNumber: Int? = null
 
     override fun compose(): Boolean {
-        if (!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
 
@@ -23,5 +23,5 @@ class GetBolusTemplate:BaseOperandWriter {
 
     }
 
-    override fun hasValidArguments(): Boolean = (bolusTemplateNumber!=null)
+    override fun hasValidArguments(): Boolean = (bolusTemplateNumber != null)
 }

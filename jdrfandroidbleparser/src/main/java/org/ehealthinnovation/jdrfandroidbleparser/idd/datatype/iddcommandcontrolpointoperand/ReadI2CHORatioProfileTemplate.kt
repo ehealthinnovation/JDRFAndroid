@@ -3,18 +3,18 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class ReadI2CHORatioProfileTemplate:BaseOperandWriter {
+class ReadI2CHORatioProfileTemplate : BaseOperandWriter {
 
     override val tag = ReadI2CHORatioProfileTemplate::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
-    var i2choRatioProfileTemplateNumber:Int?= null
+    var i2choRatioProfileTemplateNumber: Int? = null
 
     override fun compose(): Boolean {
-        if (!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
 
@@ -23,5 +23,5 @@ class ReadI2CHORatioProfileTemplate:BaseOperandWriter {
 
     }
 
-    override fun hasValidArguments(): Boolean = (i2choRatioProfileTemplateNumber!=null)
+    override fun hasValidArguments(): Boolean = (i2choRatioProfileTemplateNumber != null)
 }

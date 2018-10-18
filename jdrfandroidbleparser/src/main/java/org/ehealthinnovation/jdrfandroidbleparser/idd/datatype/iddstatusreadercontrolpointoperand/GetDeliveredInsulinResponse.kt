@@ -9,10 +9,10 @@ class GetDeliveredInsulinResponse : BaseOperandParser {
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var bolusAmountDelivered : Float? = null
-    var basalAmountDelivered : Float? = null
+    var bolusAmountDelivered: Float? = null
+    var basalAmountDelivered: Float? = null
 
     override fun parse(): Boolean {
         bolusAmountDelivered = getNextFloat(BluetoothGattCharacteristic.FORMAT_FLOAT)

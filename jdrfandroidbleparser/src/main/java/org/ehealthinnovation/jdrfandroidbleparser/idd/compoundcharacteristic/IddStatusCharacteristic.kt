@@ -8,21 +8,21 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.Operat
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.status.Float
 import java.util.*
 
-class IddStatusCharacteristic(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter : Boolean) :
-        BaseCharacteristic(characteristic, GattCharacteristic.IDD_STATUS.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter){
+class IddStatusCharacteristic(characteristic: BluetoothGattCharacteristic?, hasCrc: Boolean = false, hasE2eCounter: Boolean) :
+        BaseCharacteristic(characteristic, GattCharacteristic.IDD_STATUS.assigned, hasCrc = hasCrc, hasE2eCounter = hasE2eCounter) {
     override val tag = IddStatusCharacteristic::class.java.canonicalName as String
 
     /**
      * The Therapy Control State field describes the therapy state of the insulin delivery (e.g., stop,
-pause, run).
+    pause, run).
      */
-    var therapyControlState : Float? = null
+    var therapyControlState: Float? = null
 
     /**
      * The Operational State field represents the operational state of the Insulin Delivery Device
      * in the context of running an insulin infusion therapy (e.g., priming).
      */
-    var operationalState : OperationalState? = null
+    var operationalState: OperationalState? = null
 
     /**
      * The Reservoir Remaining Amount field represents the remaining amount of insulin in the
@@ -42,15 +42,15 @@ pause, run).
     var e2eCounter: Int? = null
 
     override fun parse(c: BluetoothGattCharacteristic, hasE2eCounter: Boolean): Boolean {
-       var errorFreeParse = false
+        var errorFreeParse = false
         therapyControlState = Float.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         operationalState = OperationalState.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
         reservoirRemainingAmount = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
         flags = Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-        if(hasE2eCounter){
-           e2eCounter = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+        if (hasE2eCounter) {
+            e2eCounter = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
         }
-        if(therapyControlState == null || operationalState == null || reservoirRemainingAmount == null || (hasE2eCounter and (e2eCounter == null))){
+        if (therapyControlState == null || operationalState == null || reservoirRemainingAmount == null || (hasE2eCounter and (e2eCounter == null))) {
             return errorFreeParse
         }
         errorFreeParse = true

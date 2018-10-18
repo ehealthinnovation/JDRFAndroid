@@ -16,10 +16,10 @@ class AnnunciationStatusChangedPart1of2 : BaseOperandParser {
 
     constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
-    var flags: EnumSet<AnnunciationStatusChangedPart1Flags>?=null
-    var annunciationInstanceID: Int?=null
-    var annunciationType: AnnunciationType?= null
-    var annunciationStatusValues: AnnunciationStatusValues?=null
+    var flags: EnumSet<AnnunciationStatusChangedPart1Flags>? = null
+    var annunciationInstanceID: Int? = null
+    var annunciationType: AnnunciationType? = null
+    var annunciationStatusValues: AnnunciationStatusValues? = null
     var auxInfo1: Int? = null
     var auxInfo2: Int? = null
 
@@ -28,16 +28,16 @@ class AnnunciationStatusChangedPart1of2 : BaseOperandParser {
         annunciationInstanceID = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
         annunciationType = AnnunciationType.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16))
         annunciationStatusValues = AnnunciationStatusValues.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))
-        flags?.let { flags->
-            if (flags.contains(AnnunciationStatusChangedPart1Flags.AUXINFO1_PRESENT)){
+        flags?.let { flags ->
+            if (flags.contains(AnnunciationStatusChangedPart1Flags.AUXINFO1_PRESENT)) {
                 auxInfo1 = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
-            if (flags.contains(AnnunciationStatusChangedPart1Flags.AUXINFO2_PRESENT)){
+            if (flags.contains(AnnunciationStatusChangedPart1Flags.AUXINFO2_PRESENT)) {
                 auxInfo2 = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
 
         }
-       return true
+        return true
 
     }
 }

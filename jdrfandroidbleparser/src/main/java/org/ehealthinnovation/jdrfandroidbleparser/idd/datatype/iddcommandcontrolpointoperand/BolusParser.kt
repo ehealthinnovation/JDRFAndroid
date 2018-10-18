@@ -5,7 +5,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commandcontro
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class BolusParser: BaseOperandParser {
+class BolusParser : BaseOperandParser {
 
     override val tag = BolusParser::class.java.canonicalName as String
 
@@ -15,9 +15,9 @@ class BolusParser: BaseOperandParser {
     constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var bolueType: BolusType? = null
-    var bolusFastAmount: Float?= null
-    var bolusExtendedAmount: Float?= null
-    var bolusDuration: Int?= null
+    var bolusFastAmount: Float? = null
+    var bolusExtendedAmount: Float? = null
+    var bolusDuration: Int? = null
 
     override fun parse(): Boolean {
         bolueType = BolusType.fromKey(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT8))

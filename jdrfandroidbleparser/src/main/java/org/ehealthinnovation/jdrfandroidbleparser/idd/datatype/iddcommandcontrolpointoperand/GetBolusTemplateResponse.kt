@@ -32,7 +32,7 @@ class GetBolusTemplateResponse : BaseOperandParser {
             }
         }
         flags?.let {
-            if (it.contains(GetBolusTemplateResponseFlags.BOLUS_DELAY_TIME_PRESENT)){
+            if (it.contains(GetBolusTemplateResponseFlags.BOLUS_DELAY_TIME_PRESENT)) {
                 bolusDelayTime = getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16)
             }
         }

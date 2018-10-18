@@ -5,13 +5,13 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.idd.commanddata.R
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandParser
 import java.util.*
 
-class ReadI2CHORatioProfileTemplateResponse: BaseOperandParser{
+class ReadI2CHORatioProfileTemplateResponse : BaseOperandParser {
 
-    override val tag =ReadI2CHORatioProfileTemplateResponse::class.java.canonicalName as String
+    override val tag = ReadI2CHORatioProfileTemplateResponse::class.java.canonicalName as String
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     var flags: EnumSet<ReadI2CHOProfileTemplateResponseFlags>? = null
 

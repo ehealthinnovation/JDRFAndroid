@@ -24,6 +24,6 @@ class BolusCalculatedPart1of2 : BaseOperandParser {
         recommendedFastAmountCorrection = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         recommendedExtendedAmountMeal = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
         recommendedExtendedAmountCorrection = getNextFloat(BluetoothGattCharacteristic.FORMAT_SFLOAT)
-       return true
+        return true
     }
 }

@@ -3,24 +3,24 @@ package org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.iddcommandcontro
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.idd.datatype.BaseOperandWriter
 
-class SetInitialReservoirLevel :BaseOperandWriter{
-    override val tag =SetInitialReservoirLevel ::class.java.canonicalName as String
+class SetInitialReservoirLevel : BaseOperandWriter {
+    override val tag = SetInitialReservoirLevel::class.java.canonicalName as String
 
-    constructor(): super()
+    constructor() : super()
 
     constructor(c: BluetoothGattCharacteristic) : super(c)
 
     var fillLevel: Float? = null
 
     override fun compose(): Boolean {
-        if(!hasValidArguments()){
+        if (!hasValidArguments()) {
             return false
         }
-        fillLevel?.let { setFloatValue((it*10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT) }
+        fillLevel?.let { setFloatValue((it * 10).toInt(), -1, BluetoothGattCharacteristic.FORMAT_SFLOAT) }
         return true
     }
 
     override fun hasValidArguments(): Boolean {
-        return (fillLevel!=null)
+        return (fillLevel != null)
     }
 }

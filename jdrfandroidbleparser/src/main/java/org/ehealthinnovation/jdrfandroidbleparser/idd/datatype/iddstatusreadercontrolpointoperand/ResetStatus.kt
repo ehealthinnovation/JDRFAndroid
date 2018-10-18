@@ -14,14 +14,14 @@ class ResetStatus : BaseOperandParser {
 
     constructor(rawData: ByteArray) : super(rawData)
 
-    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic):super(rawData, c)
+    constructor(rawData: ByteArray, c: BluetoothGattCharacteristic) : super(rawData, c)
 
     /**
      * The Operand of the Reset Status Op Code is comprised of a Flags field of the IDD Status
      * Changed characteristic. A specific status can be reset by setting the corresponding bit to 1
      * (=True). If a bit is set to 0 (= False), the corresponding status will be retained.
      */
-    var flags : EnumSet<Flags>? = null
+    var flags: EnumSet<Flags>? = null
 
     override fun parse(): Boolean {
         flags = Flags.parseFlags(getNextInt(BluetoothGattCharacteristic.FORMAT_UINT16))
